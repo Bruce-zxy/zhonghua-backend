@@ -1033,7 +1033,8 @@
                     "title":"主页",
                     "hrefStr":"javascript:;",
                     "labeltype":"",
-                    "labeltit":""
+                    "labeltit":"",
+                    "childer": []
                 },
                  {
                      "active": false,
@@ -1041,7 +1042,8 @@
                     "title": "布局",
                     "hrefStr": "javascript:;",
                     "labeltype": "label-warning",
-                    "labeltit": ""
+                    "labeltit": "",
+                    "childer":[]
                 },
                  {
                     "active": false,
@@ -1064,19 +1066,19 @@
                     "labeltit": "",
                     "childer": [
                         {
-                            "title": "按钮组",
+                            "title": "按钮组1",
                             "hrefStr": "",
                         },
                         {
-                            "title": "按钮组",
+                            "title": "按钮组2",
                             "hrefStr": "",
                         },
                         {
-                            "title": "按钮组",
+                            "title": "进度条",
                             "hrefStr": "",
                             "childer": [
                                 {
-                                    "title": "进度条",
+                                    "title": "进度条1",
                                     "hrefStr": ""
                                 }
                             ]
@@ -1093,7 +1095,7 @@
                 // </li>
                 $("#aside .nav").html("");
                 var navHtml="";
-                
+               
                 $.each(asideData, function (index, value) {
                     
                         oActive     = value['active'] ? "active" : " ";
