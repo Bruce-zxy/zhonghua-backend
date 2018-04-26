@@ -3,3 +3,4 @@
 .ui-content-body,.ui-container{height:100%;}
 .ui-container .row > [class^="col-"],.ui-container .row > [class*="col-"] {padding-left: 5px; padding-right: 5px;}
 .ui-aside-right{overflow-y:hidden;}
+#aside,.mCustomScrollBox,.mCSB_container{overflow: visible !important;}
