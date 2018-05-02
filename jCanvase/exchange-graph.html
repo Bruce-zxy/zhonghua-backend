@@ -1,0 +1,831 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Systems</title>
+    <!--[if lt IE 9]>
+        <script src="../ref/html5shiv/html5shiv.min.js"></script>
+        <script src="../ref/respond/respond.min.js"></script>
+    <![endif]-->
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <link href="./imageviewer.css" rel="stylesheet" />
+    <script src="./jquery.min.js"></script>
+    <script src="./imageviewer.min.js"></script>
+    <script src="./jcanvas.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            Draw1();
+            $.ajax({
+                url: "exchange-fakedata.json",//json文件位置
+                type: "GET",//请求方式为get
+                dataType: "json", //返回数据格式为json
+                success: function (data) {//请求成功完成后要执行的方法
+                    Draw2(data);
+                }
+            });
+        });
+        function Draw1() {
+            $('canvas').drawRect({
+                fillStyle: '#FFF',
+                x: 0, y: 0,
+                width: 7071,
+                height: 3859,
+                fromCenter: false
+            });
+            $('#cvs').drawLine({
+                strokeStyle: '#ffc90e',
+                strokeWidth: 6,
+                strokeDash: [32, 20],
+                strokeDashOffset: 0,
+                x1: 4386, y1: 5,
+                x2: 5066, y2: 5,
+                x3: 5066, y3: 380,
+                x4: 4386, y4: 380,
+                closed: true
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                strokeDash: [32, 20],
+                strokeDashOffset: 0,
+                x1: 5330, y1: 5,
+                x2: 5973, y2: 5,
+                x3: 5973, y3: 380,
+                x4: 5330, y4: 380,
+                closed: true
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#c00000',
+                strokeWidth: 6,
+                strokeDash: [32, 20],
+                strokeDashOffset: 0,
+                x1: 5, y1: 666,
+                x2: 3781, y2: 666,
+                x3: 3781, y3: 3854,
+                x4: 5, y4: 3854,
+                closed: true
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#c00000',
+                strokeWidth: 6,
+                strokeDash: [32, 20],
+                strokeDashOffset: 0,
+                x1: 4291, y1: 666,
+                x2: 7066, y2: 666,
+                x3: 7066, y3: 3854,
+                x4: 4291, y4: 3854,
+                closed: true
+            });
+            $('#cvs').drawText({
+                fillStyle: '#c00000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 3515, y: 3752,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: '内网区域'
+            });
+            $('#cvs').drawText({
+                fillStyle: '#c00000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 6826, y: 3752,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'DMZ区域'
+            });
+            $('#cvs').drawImage({
+                source: 'imgs/PC.png',
+                x: 4620, y: 180
+            });
+            $('#cvs').drawImage({
+                source: 'imgs/SmartPhone.png',
+                x: 4830, y: 180
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 4723, y: 330,
+                fontSize: 32,
+                fontFamily: 'Microsoft YaHei',
+                text: 'Internet network'
+            });
+
+            $('#cvs').drawImage({
+                source: 'imgs/MailServer.png',
+                x: 5510, y: 165,
+                load: function () {
+                    $('#cvs').drawImage({
+                        source: 'imgs/MailServer.png',
+                        x: 5650, y: 165,
+                        load: function () {
+                            $('#cvs').drawImage({
+                                source: 'imgs/MailServer.png',
+                                x: 5790, y: 165
+                            });
+                        }
+                    });
+                }
+            });
+            $('#cvs').drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 5656, y: 330,
+                fontSize: 32,
+                fontFamily: 'Microsoft YaHei',
+                text: 'Office 365 服务器和外部邮件服务器'
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#ffc90e',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 4795, y: 500,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'HTTPS'
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#3a75c5',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 5522, y: 500,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'SMTP'
+            });
+            $('#cvs').drawImage({
+                source: 'imgs/Firewall.png',
+                x: 5065, y: 859
+            });
+
+            $('#cvs').drawImage({
+                source: 'imgs/Switch.png',
+                x: 5065, y: 1157
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 5354, y: 1047,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'F5负载均衡'
+            });
+            $('#cvs').drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 5480, y: 1127,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'ARR负载均衡(10.6.0.13)'
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: 5875, y: 1180,
+                fontSize: 40,
+                fontFamily: 'Microsoft YaHei',
+                text: 'Exchange 2016 Edge负载均衡 UCSMTP.sinochem.com(10.6.0.14)'
+            });
+
+            $('canvas').drawLine({
+                strokeStyle: '#ffc90e',
+                strokeWidth: 6,
+                x1: 4572, y1: 1513,
+                x2: 5540, y2: 1513,
+                x3: 5540, y3: 2156,
+                x4: 4572, y4: 2156,
+                closed: true
+            });
+
+            $('canvas').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 5750, y1: 1535,
+                x2: 6918, y2: 1535,
+                x3: 6918, y3: 2035,
+                x4: 5750, y4: 2035,
+                closed: true
+            });
+            $('canvas').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 4575, y1: 2602,
+                x2: 5821, y2: 2602,
+                x3: 5821, y3: 3214,
+                x4: 4575, y4: 3214,
+                closed: true
+            });
+            $('#cvs').drawImage({
+                source: 'imgs/Firewall.png',
+                x: 3953, y: 2441
+            });
+            $('#cvs').drawImage({
+                source: 'imgs/Switch.png',
+                x: 3511, y: 2441
+            });
+
+
+
+
+        }
+        function Draw2(data) {
+            //DNS部分
+            var x = 5908, y = 1639;
+            data.DataSource.DNSList.DNS.sort(SortBy('Orderby', true, parseInt));
+            $(data.DataSource.DNSList.DNS).each(function (index, dns) {
+                if (index > 3)//5678
+                    drawDNS(dns.Name, x + (index - 4) * 288, y + 228, dns.State - 0);
+
+                else//1234
+                    drawDNS(dns.Name, x + index * 288, y, dns.State - 0);
+            });
+            //ARR部分
+            x = 4620; y = 1555;
+            data.DataSource.ARRServerList.ARRSerevr.sort(SortBy('Orderby', true, parseInt))
+            $(data.DataSource.ARRServerList.ARRSerevr).each(function (index, arr) {
+                $('#cvs').drawLine({
+                    strokeStyle: '#22b14c',
+                    strokeWidth: 6,
+                    strokeDash: [50, 30],
+                    strokeDashOffset: 0,
+                    x1: x + index * 315, y1: y,
+                    x2: x + index * 315 + 240, y2: y,
+                    x3: x + index * 315 + 240, y3: y + 575,
+                    x4: x + index * 315, y4: y + 575,
+                    closed: true
+                });
+                $('#cvs').drawImage({
+                    source: 'imgs/FirewallServer.png',
+                    x: x + index * 315 + 130, y: y + 105,
+                    load: function () {
+                        var src = '';
+                        if (arr.State - 0 == 0)
+                            src = 'imgs/info.png'
+                        else if (arr.State - 0 == 1)
+                            src = 'imgs/warning.png'
+                        else
+                            src = 'imgs/error.png'
+                        $('#cvs').drawImage({
+                            source: src,
+                            x: x + index * 315 + 130, y: y + 60,
+                            width: 48, height: 48
+                        });
+                        $('#cvs').drawRect({
+                            fillStyle: '#3a75c5',
+                            x: x + index * 315 + 128, y: y + 200,
+                            width: 120,
+                            height: 30
+
+                        });
+
+                        $('#cvs').drawText({
+                            fillStyle: '#FFF',
+                            fontStyle: 'bold',
+                            strokeWidth: 5,
+                            x: x + index * 315 + 128, y: y + 200,
+                            fontSize: 20,
+                            fontFamily: 'Microsoft YaHei',
+                            text: arr.Name
+                        });
+                    }
+                });
+                $('#cvs').drawText({
+                    fillStyle: '#000',
+                    fontStyle: 'bold',
+                    strokeWidth: 5,
+                    x: x + index * 315 + 22, y: y + 225,
+                    fontSize: 20,
+                    fontFamily: 'Microsoft YaHei',
+                    text: 'RAM: ' + arr.RAM.Used + '/' + arr.RAM.Total + ' GB',
+                    fromCenter: false
+
+                });
+                $('#cvs').drawRect({
+                    strokeStyle: '#eee',
+                    strokeWidth: 4,
+                    x: x + index * 315 + 22, y: y + 250,
+                    width: 204,
+                    height: 20,
+                    cornerRadius: 5,
+                    fromCenter: false
+                });
+                var clr = "#F00";
+                if (arr.RAM.State - 0 == 0)
+                    clr = "#1afa29";
+                else if (arr.RAM.State - 0 == 1)
+                    clr = "#FF0";
+                $('#cvs').drawRect({
+                    fillStyle: clr,
+                    x: x + index * 315 + 24, y: y + 250 + 2,
+                    width: Math.floor((arr.RAM.Used / arr.RAM.Total) * 200),
+                    height: 16,
+                    cornerRadius: 5,
+                    fromCenter: false
+                });
+                $('#cvs').drawText({
+                    fillStyle: '#000',
+                    fontStyle: 'bold',
+                    strokeWidth: 5,
+                    x: x + index * 315 + 28, y: y + 254,
+                    fontSize: 12,
+                    fontFamily: 'Microsoft YaHei',
+                    text: Math.floor((arr.RAM.Used / arr.RAM.Total) * 100) + "%",
+                    fromCenter: false
+                });
+                arr.DiskList.Disk.sort(SortBy('Orderby', true, parseInt));
+                $(arr.DiskList.Disk).each(function (i, disk) {
+                    $('#cvs').drawImage({
+                        source: 'imgs/Disk4.png',
+                        x: x + index * 315 + 15, y: y + 280 + i * 65,
+                        width: 36, height: 36,
+                        fromCenter: false,
+                        load: function () {
+                            $('#cvs').drawText({
+                                fillStyle: '#000',
+                                fontStyle: 'bold',
+                                strokeWidth: 5,
+                                x: x + index * 315 + 22, y: y + 285 + i * 65,
+                                fontSize: 16,
+                                fontFamily: 'Microsoft YaHei',
+                                text: disk.Symbol + ':\\',
+                                fromCenter: false
+                            });
+                            $('#cvs').drawText({
+                                fillStyle: '#000',
+                                fontStyle: 'bold',
+                                strokeWidth: 5,
+                                x: x + index * 315 + 70, y: y + 287 + i * 65,
+                                fontSize: 20,
+                                fontFamily: 'Microsoft YaHei',
+                                text: disk.Used + '/' + disk.Total + ' GB',
+                                fromCenter: false
+
+                            });
+
+                            $('#cvs').drawRect({
+                                strokeStyle: '#eee',
+                                strokeWidth: 4,
+                                x: x + index * 315 + 24, y: y + 320 + i * 65,
+                                width: 204,
+                                height: 20,
+                                cornerRadius: 5,
+                                fromCenter: false
+                            });
+                            var disk_clr = "#F00";
+                            if (disk.State - 0 == 0)
+                                disk_clr = "#1afa29";
+                            else if (disk.State - 0 == 1)
+                                disk_clr = "#FF0";
+                            $('#cvs').drawRect({
+                                fillStyle: disk_clr,
+                                x: x + index * 315 + 26, y: y + 322 + i * 65,
+                                width: Math.floor((disk.Used / disk.Total) * 200),
+                                height: 16,
+                                cornerRadius: 5,
+                                fromCenter: false
+                            });
+                            $('#cvs').drawText({
+                                fillStyle: '#000',
+                                fontStyle: 'bold',
+                                strokeWidth: 5,
+                                x: x + index * 315 + 30, y: y + 324 + i * 65,
+                                fontSize: 12,
+                                fontFamily: 'Microsoft YaHei',
+                                text: Math.floor((disk.Used / disk.Total) * 100) + "%",
+                                fromCenter: false
+                            });
+                        }
+                    });
+                });
+                //检查点
+                arr.CheckPointList.CheckPoint.sort(SortBy('Orderby', true, parseInt));
+                $(arr.CheckPointList.CheckPoint).each(function (j, cp) {
+                    $('#cvs').drawImage({
+                        source: 'imgs/' + cp.Icon,
+                        x: x + index * 315 + 35, y: y + 440 + j * 50,
+                        fromCenter: true
+                    });
+                    $('#cvs').drawText({
+                        fillStyle: '#000',
+                        fontStyle: 'bold',
+                        strokeWidth: 5,
+                        x: x + index * 315 + 65, y: y + 430 + j * 50,
+                        fontSize: 24,
+                        fontFamily: 'Trebuchet MS',
+                        text: cp.Name,
+                        fromCenter: false
+                    });
+                    $('#cvs').drawImage({
+                        source: GetStateIcon(cp.State, "imgs/"),
+                        x: x + index * 315 + 220, y: y + 440 + j * 50,
+                        width: 36, height: 36,
+                        fromCenter: true
+                    });
+
+                });
+            });
+            //EDGE部分
+            data.DataSource.EDGEServerList.EDGEServer.sort(SortBy('Orderby', true, parseInt));
+            var xx = 4742; yy = 2657;
+            $(data.DataSource.EDGEServerList.EDGEServer).each(function (e, s) {
+                DrawServer($('#cvs'), xx, yy, 235, 505, s, 'imgs/Server.png', '#22b14c');
+                xx = xx + 310;
+            });
+            //内网服务器部分
+
+            data.DataSource.InternalServerList.Layer.sort(SortBy('Orderby', true, parseInt));
+            //var x_layer = 0, y_server = 0;
+            //data.DataSource.InternalServerList.Layer[0].Server.sort(SortBy('Orderby', true, parseInt));
+            //DrawServer($('#cvs'), 2983, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[0], 'imgs/Server.png', '#22b14c');
+            //DrawServer($('#cvs'), 2683, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[1], 'imgs/Server.png', '#22b14c');
+            //DrawServer($('#cvs'), 2383, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[2], 'imgs/Server.png', '#22b14c');
+            //DrawServer($('#cvs'), 2083, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[3], 'imgs/WFE.png', '#22b14c');
+            //DrawServer($('#cvs'), 1783, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[4], 'imgs/WFE.png', '#22b14c');
+            //DrawServer($('#cvs'), 1483, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[5], 'imgs/WFE.png', '#22b14c');
+            //DrawServer($('#cvs'), 1183, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[6], 'imgs/WFE.png', '#22b14c');
+            //DrawServer($('#cvs'), 883, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[7], 'imgs/WFE.png', '#22b14c');
+            //DrawServer($('#cvs'), 563, 3048, 235, 640, data.DataSource.InternalServerList.Layer[0].Server[8], 'imgs/WFE.png', '#22b14c');
+            //data.DataSource.InternalServerList.Layer[1].Server.sort(SortBy('Orderby', true, parseInt));
+            //DrawServer($('#cvs'), 2983, 2352, 235, 640, data.DataSource.InternalServerList.Layer[1].Server[0], 'imgs/MailServer.png', '#13aae1');
+            //DrawServer($('#cvs'), 2683, 2352, 235, 640, data.DataSource.InternalServerList.Layer[1].Server[1], 'imgs/MailServer.png', '#13aae1');
+            //DrawServer($('#cvs'), 2383, 2352, 235, 640, data.DataSource.InternalServerList.Layer[1].Server[2], 'imgs/MailServer.png', '#13aae1');
+            //DrawServer($('#cvs'), 2083, 2352, 235, 640, data.DataSource.InternalServerList.Layer[1].Server[3], 'imgs/MailServer.png', '#13aae1');
+            //DrawServer($('#cvs'), 1783, 2352, 235, 640, data.DataSource.InternalServerList.Layer[1].Server[4], 'imgs/MailServer.png', '#13aae1');
+            //data.DataSource.InternalServerList.Layer[2].Server.sort(SortBy('Orderby', true, parseInt));
+            //data.DataSource.InternalServerList.Layer[3].Server.sort(SortBy('Orderby', true, parseInt));
+            $(data.DataSource.InternalServerList.Layer).each(function (iLayer, layer) {
+                //if (iLayer <) {
+                var yp = 0;
+                var zonecol = "#13aae1";
+                if (iLayer == 0) {
+                    yp = 3048;
+                    zonecol = '#22b14c';
+                }
+                else if (iLayer == 1) {
+                    yp = 2352;
+                }
+                else if (iLayer == 2) {
+                    yp = 1612;
+                    zonecol = '#22b14c';
+                }
+                else
+                    yp = 836;
+
+                layer.Server.sort(SortBy('Orderby', true, parseInt));
+                var xp = 2983;
+                $(layer.Server).each(function (index, server) {
+                    DrawServer($('#cvs'), xp, yp, 235, 640, server, 'imgs/Server.png', zonecol);
+                    $('#cvs').drawLine({
+                        strokeStyle: '#68398a',
+                        strokeWidth: 5.5,
+                        x1: xp, y1: yp,
+                        x2: xp, y2: yp - 38,
+                        x3: 3252, y3: yp - 38,
+                        x4: 3252, y4: 2440,
+                        x5: 3932, y5: 2440
+                    });
+                    xp = xp - 300;
+                });
+                //}
+            });
+            DrawLines();
+
+            document.getElementById('cvs').style.width = $('#container').width() + "px";
+
+        }
+        var SortBy = function (filed, asc, primer) {
+            asc = (asc) ? 1 : -1;
+            return function (a, b) {
+                a = a[filed];
+                b = b[filed];
+                if (typeof (primer) != 'undefined') {
+                    a = primer(a);
+                    b = primer(b);
+                }
+                if (a < b) { return asc * -1; }
+                if (a > b) { return asc * 1; }
+                return 1;
+            }
+        };
+        function drawDNS(name, x, y, state) {
+            var src = '';
+            if (state == 0)
+                src = 'imgs/info.png'
+            else if (state == 1)
+                src = 'imgs/warning.png'
+            else
+                src = 'imgs/error.png'
+
+            $('#cvs').drawImage({
+                source: 'imgs/Driver.png',
+                x: x, y: y,
+                load: function () {
+                    $('#cvs').drawImage({
+                        source: src,
+                        x: x + 60, y: y - 13,
+                        width: 48,
+                        height: 48
+                    });
+                }
+            });
+
+            $('#cvs').drawRect({
+                fillStyle: '#3a75c5',
+                x: x, y: y + 80,
+                width: 170,
+                height: 30
+
+            });
+
+            $('#cvs').drawText({
+                fillStyle: '#FFF',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: x, y: y + 80,
+                fontSize: 20,
+                fontFamily: 'Microsoft YaHei',
+                text: name
+            });
+        }
+        function DrawLines() {
+            $('#cvs').drawLine({
+                strokeStyle: '#ffc90e',
+                strokeWidth: 6,
+                x1: 5043, y1: 856,
+                x2: 4705, y2: 380
+            });
+            $('#cvs').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 5043, y1: 856,
+                x2: 5666, y2: 380
+            });
+            $('#cvs').drawLine({
+                strokeStyle: '#ffc90e',
+                strokeWidth: 6,
+                x1: 5043, y1: 856,
+                x2: 5043, y2: 1514
+            });
+            $('#cvs').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 5043, y1: 856,
+                x2: 6355, y2: 1534
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 5820, y1: 2919,
+                x2: 6355, y2: 2035
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#3a75c5',
+                strokeWidth: 6,
+                x1: 3932, y1: 2441,
+                x2: 4574, y2: 2919
+            });
+
+            $('#cvs').drawLine({
+                strokeStyle: '#ffc90e',
+                strokeWidth: 6,
+                x1: 4574, y1: 1827,
+                x2: 3932, y2: 2441
+            });
+        }
+        function GetStateIcon(state, prefix) {
+            var suffix = "";
+            if (state - 0 == 0)
+                suffix = "info.png";
+            else if (state - 0 == 1)
+                suffix = "warning.png";
+            else
+                suffix = "error.png";
+            return prefix + suffix;
+        }
+        function GetStateColor(state) {
+            var clr = "#F00";
+            if (state - 0 == 0)
+                clr = "#1afa29";
+            else if (state - 0 == 1)
+                clr = "#FF0";
+            return clr;
+        }
+        function DrawServer(cvs, x, y, w, h, json, icon, zoneclr) {
+            var x_start = x - w / 2;
+            y_start = y;
+            cvs.drawLine({
+                strokeStyle: zoneclr,
+                strokeWidth: 6,
+                strokeDash: [50, 30],
+                strokeDashOffset: 0,
+                x1: x_start, y1: y_start,
+                x2: x_start + w, y2: y_start,
+                x3: x_start + w, y3: y_start + h,
+                x4: x_start, y4: y_start + h,
+                closed: true
+            });
+            cvs.drawImage({
+                source: icon,
+                x: x, y: y_start + 100,
+                fromCenter: true,
+                load: function () {
+                    $('#cvs').drawImage({
+                        source: GetStateIcon(json.State, 'imgs/'),
+                        x: x, y: y + 60,
+                        width: 48, height: 48
+                    });
+
+                    $('#cvs').drawRect({
+                        fillStyle: '#3a75c5',
+                        x: x, y: y + 210,
+                        width: 150,
+                        height: 30
+                    });
+
+                    $('#cvs').drawText({
+                        fillStyle: '#FFF',
+                        fontStyle: 'bold',
+                        strokeWidth: 5,
+                        x: x, y: y + 210,
+                        fontSize: 20,
+                        fontFamily: 'Microsoft YaHei',
+                        text: json.Name
+                    });
+                }
+            });
+            cvs.drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: x_start + 16, y: y_start + 235,
+                fontSize: 20,
+                fontFamily: 'Microsoft YaHei',
+                text: 'RAM: ' + json.RAM.Used + '/' + json.RAM.Total + ' GB',
+                fromCenter: false
+            });
+            cvs.drawRect({
+                strokeStyle: '#eee',
+                strokeWidth: 4,
+                x: x_start + 16, y: y_start + 260,
+                width: 204,
+                height: 20,
+                cornerRadius: 5,
+                fromCenter: false
+            });
+
+            cvs.drawRect({
+                fillStyle: GetStateColor(json.RAM.State),
+                x: x_start + 18, y: y_start + 262,
+                width: Math.floor((json.RAM.Used / json.RAM.Total) * 200),
+                height: 16,
+                cornerRadius: 5,
+                fromCenter: false
+            });
+            cvs.drawText({
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                strokeWidth: 5,
+                x: x_start + 22, y: y_start + 264,
+                fontSize: 12,
+                fontFamily: 'Microsoft YaHei',
+                text: Math.floor((json.RAM.Used / json.RAM.Total) * 100) + "%",
+                fromCenter: false
+            });
+            json.DiskList.Disk.sort(SortBy('Orderby', true, parseInt));
+            var diskcount = json.DiskList.Disk.length;
+            $(json.DiskList.Disk).each(function (index, disk) {
+                cvs.drawImage({
+                    source: 'imgs/Disk4.png',
+                    x: x_start + 15, y: y_start + index * 65 + 288,
+                    width: 36, height: 36,
+                    fromCenter: false,
+                    load: function () {
+
+                    }
+
+                });
+                //cvs.drawText({
+                //    fillStyle: '#000',
+                //    fontStyle: 'bold',
+                //    strokeWidth: 5,
+                //    x: x_start + 22, y: y_start + index * 65 + 295,
+                //    fontSize: 16,
+                //    fontFamily: 'Microsoft YaHei',
+                //    text: disk.Symbol + ':\\',
+                //    fromCenter: false
+                //});
+                cvs.drawText({
+                    fillStyle: '#000',
+                    fontStyle: 'bold',
+                    strokeWidth: 5,
+                    x: x_start + 68, y: y_start + index * 65 + 294,
+                    fontSize: 20,
+                    fontFamily: 'Microsoft YaHei',
+                    text: disk.Symbol + ':\\ ' + disk.Used + '/' + disk.Total + ' GB',
+                    fromCenter: false
+
+                });
+
+                cvs.drawRect({
+                    strokeStyle: '#eee',
+                    strokeWidth: 4,
+                    x: x_start + 16, y: y_start + index * 65 + 325,
+                    width: 204,
+                    height: 20,
+                    cornerRadius: 5,
+                    fromCenter: false
+                });
+                cvs.drawRect({
+                    fillStyle: GetStateColor(disk.State),
+                    x: x_start + 18, y: y_start + index * 65 + 327,
+                    width: Math.floor((disk.Used / disk.Total) * 200),
+                    height: 16,
+                    cornerRadius: 5,
+                    fromCenter: false
+                });
+                cvs.drawText({
+                    fillStyle: '#000',
+                    fontStyle: 'bold',
+                    strokeWidth: 5,
+                    x: x_start + 22, y: y_start + index * 65 + 329,
+                    fontSize: 12,
+                    fontFamily: 'Microsoft YaHei',
+                    text: Math.floor((disk.Used / disk.Total) * 100) + "%",
+                    fromCenter: false
+                });
+            });
+            json.CheckPointList.CheckPoint.sort(SortBy('Orderby', true, parseInt));
+            y_start = y_start + (diskcount - 1) * 65;
+            $(json.CheckPointList.CheckPoint).each(function (index, cp) {
+                cvs.drawImage({
+                    source: 'imgs/' + cp.Icon,
+                    x: x_start + 35, y: y_start + 50 * index + 380,
+                    fromCenter: true
+                });
+                cvs.drawText({
+                    fillStyle: '#000',
+                    fontStyle: 'bold',
+                    strokeWidth: 5,
+                    x: x_start + 65, y: y_start + 50 * index + 370,
+                    fontSize: 24,
+                    fontFamily: 'Trebuchet MS',
+                    text: cp.Name,
+                    fromCenter: false
+                });
+
+                cvs.drawImage({
+                    source: GetStateIcon(cp.State, "imgs/"),
+                    x: x_start + 215, y: y_start + 50 * index + 380,
+                    width: 36, height: 36,
+                    fromCenter: true
+                });
+            });
+        }
+
+        function Zoom() {
+            debugger;
+            var imgss = $('#cvs').getCanvasImage('png');
+            $('#img').attr('src', imgss);
+            var viewer = ImageViewer();
+
+            var imgSrc = imgss,
+              highResolutionImage = $('#img').data('high-res-img');
+
+            viewer.show(imgSrc, highResolutionImage);
+        }
+    </script>
+
+</head>
+<body style="width: 100%; height: 100%;  margin: 0; padding: 0;">
+    <div class="panel panel-default" style="margin-bottom:0;">
+        <header class="panel-heading">
+            Exchange 系统拓扑
+            <button type="button" class="btn btn-success" onclick="Zoom()"><i class="fa fa-eye"></i> View </button>
+        </header>
+        <div class="panel-body" id="container">
+            <canvas id="cvs" width="7071" height="3859" style="background: rgba(255,255,255,1)">
+                <p style="color: #c90000">您正在使用的浏览器不支持html5</p>
+                最新版本的 Safari、Chrome、Firefox 以及 Opera 支持某些 HTML5 特性。Internet Explorer 9（及以上） 将支持某些 HTML5 特性。
+            </canvas>
+        </div>
+        <img id="img" alt="" class="gallery-items" style="display:none;" />
+    </div>
+</body>
+</html>
