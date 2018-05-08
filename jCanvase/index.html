@@ -112,20 +112,6 @@
 
 				console.log('画布左边虚线内容块的高度:' + CanvasContentHeight);
 
-				var winCvsWidth = $('#container').width();
-				var winCvsheight = $(window).height() - $('.panel-heading').outerHeight() - 40
-
-				if((CanvasWidth / CanvasHeight) >= (16 / 9) || $(window).height() >= $(window).width()) {
-					document.getElementById('cvs').style.width = winCvsWidth + "px";
-
-					disWinCvsheight = winCvsWidth * CanvasHeight / CanvasWidth;
-					$('#cvs').css("marginTop", (winCvsheight - disWinCvsheight) / 2)
-				} else if((CanvasWidth / CanvasHeight) < (16 / 9)) {
-					document.getElementById('cvs').style.height = winCvsheight + "px";
-
-					disWinCvswidth = winCvsheight * CanvasWidth / CanvasHeight;
-					$('#cvs').css("marginLeft", (winCvsWidth - disWinCvswidth) / 2)
-				}
 
 				$('canvas').prop({
 					"width": CanvasWidth,
@@ -546,7 +532,7 @@
 					LayerNumberArr.push(IntranetData[Ai].Orderby);
 				}
 
-				IntranetData.sort(SortBy('Orderby', true, parseInt));
+				IntranetData.sort(SortBy('OrderBy', true, parseInt));
 				$(IntranetData).each(function(iLayer, layer) {
 					var yp = 0;
 
@@ -617,8 +603,24 @@
 					x2: cvsMarLeft + IntranetAreaWidth + intervalNumber + 470,
 					y2: cvsMarTop + CanvasContentHeight - 400
 				});
+				
+				
+				var winCvsWidth = $('#container').width();
+				var winCvsheight = $(window).height() - $('.panel-heading').outerHeight() - 40
 
+				if((CanvasWidth / CanvasHeight) >= (16 / 9) || $(window).height() >= $(window).width()) {
+					document.getElementById('cvs').style.width = winCvsWidth + "px";
+
+					disWinCvsheight = winCvsWidth * CanvasHeight / CanvasWidth;
+					$('#cvs').css("marginTop", (winCvsheight - disWinCvsheight) / 2)
+				} else if((CanvasWidth / CanvasHeight) < (16 / 9)) {
+					document.getElementById('cvs').style.height = winCvsheight + "px";
+
+					disWinCvswidth = winCvsheight * CanvasWidth / CanvasHeight;
+					$('#cvs').css("marginLeft", (winCvsWidth - disWinCvswidth) / 2)
+				}
 			}
+			
 			var SortBy = function(filed, asc, primer) {
 				asc = (asc) ? 1 : -1;
 				return function(a, b) {
