@@ -12,7 +12,7 @@
 			"TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
 			"OrderBy": 1,
 			"GroupName": "S4B OWA",
-			"Features": "",
+			"Features": "1",
 			"ServerList": [
 				{
 					"PKID": "c30a0b41-b7f4-4db4-a58d-cbb51f4c7891",
@@ -291,7 +291,7 @@
 			"TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
 			"OrderBy": 2,
 			"GroupName": "S4B SQL",
-			"Features": "",
+			"Features": "2",
 			"ServerList": [
 				{
 					"PKID": "13ab769a-e43d-452f-ad40-70a15bf3d3b3",
@@ -792,7 +792,7 @@
 			"TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
 			"OrderBy": 3,
 			"GroupName": "S4B PC & FE",
-			"Features": "",
+			"Features": "3",
 			"ServerList": [
 				{
 					"PKID": "df6e200a-1584-4139-8ec7-96e535708bab",
@@ -1161,7 +1161,7 @@
 			"TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
 			"OrderBy": 4,
 			"GroupName": "S4B ARR",
-			"Features": "",
+			"Features": "4",
 			"ServerList": [
 				{
 					"PKID": "757892d8-1752-40f2-a474-878e4489207f",
@@ -1305,7 +1305,7 @@
 			"TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
 			"OrderBy": 5,
 			"GroupName": "S4B Edge",
-			"Features": "",
+			"Features": "5",
 			"ServerList": [
 				{
 					"PKID": "53579bcd-4674-4342-8921-b5da260828bf",

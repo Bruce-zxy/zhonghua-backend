@@ -485,8 +485,8 @@
 				var oText1, oText3, oText3;
 
 				if(oServerState == 4) {
-					oText2 = "?%"
-					oText3 = '?/? GB';
+					oText2 = "?/"+ (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100 + "%";
+					oText3 = '?/'+(Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
 				} else {
 					oText2 = Math.round((Math.round((json.UsedRAMMB / 1024) * 10) / 10) / (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100) + "%";
 					oText3 = (Math.round((json.UsedRAMMB / 1024) * 10) / 10) + '/' + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
@@ -565,12 +565,12 @@
 								fromCenter: false
 							});
 							if(oServerState == 4) {
-								oText = '?/? GB'
+								oText = '?/'+ (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
 							} else {
 								if((Math.round((disk.TotalMB / 1024) * 10) / 10) > 999) {
 									oText = (Math.round((disk.UsedMB / 1024) * 10 / 1024) / 10) + '/' + (Math.round((disk.TotalMB / 1024 / 1024) * 10) / 10) + ' TB'
 								} else {
-									oText = (Math.round((disk.UsedMB / 1024) * 10) / 10) + '/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB'
+									oText = (Math.round((disk.UsedMB / 1024) * 10) / 10) + '/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
 								}
 							}
 
