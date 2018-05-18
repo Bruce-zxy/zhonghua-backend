@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 	<head>
@@ -18,7 +18,7 @@
 		<script type="text/javascript">
 			$(function() {
 				$.ajax({
-					url: "exchange-fakedata3.json", //json文件位置
+					url: "exchange-fakedata2.json", //json文件位置
 					type: "GET", //请求方式为get
 					dataType: "json", //返回数据格式为json
 					success: function(data) { //请求成功完成后要执行的方法
@@ -45,9 +45,7 @@
 				//切割数据
 				var Datas = data.GroupList
 				//内网数据
-				var IntranetData = Datas.splice(0, 2);
-				//石头数据
-				var stoneData = Datas.splice(0, 1);
+				var IntranetData = Datas.splice(0, 3);
 				//ARR数据
 				var ARRData = Datas.splice(0, 1);
 				//EDGE数据
@@ -65,7 +63,7 @@
 					return b - a
 				})[0];
 				//内网区域宽度(IntranetArea)
-				var IntranetAreaWidth = 280 + 80 + (maxIntranetServer + $(stoneData[0].ServerList).length) * (235 + 60) + 500;
+				var IntranetAreaWidth = 280 + 80 + maxIntranetServer * (235 + 60) + 500;
 
 				//DMZ 区域宽度(DMZArea)
 				var ARRContent = ARRData[0].ServerList.length;
@@ -244,23 +242,23 @@
 				});
 
 				//map2
-				$('#cvs').drawImage({
-					source: 'imgs/Driver.png',
-					x: cvsMarLeft + IntranetAreaWidth - 260,
-					y: cvsMarTop + CanvasContentHeight - 400,
-					load: IntranetFn()
-				});
+				// $('#cvs').drawImage({
+				// 	source: 'imgs/Driver.png',
+				// 	x: cvsMarLeft + IntranetAreaWidth - 260,
+				// 	y: cvsMarTop + CanvasContentHeight - 400,
+				// 	load: IntranetFn()
+				// });
 
-				$('#cvs').drawText({
-					fillStyle: '#333',
-					fontStyle: 'bold',
-					strokeWidth: 5,
-					x: cvsMarLeft + IntranetAreaWidth - 260,
-					y: cvsMarTop + CanvasContentHeight - 300,
-					fontSize: 40,
-					fontFamily: 'Microsoft YaHei',
-					text: '语音网关'
-				});
+				// $('#cvs').drawText({
+				// 	fillStyle: '#333',
+				// 	fontStyle: 'bold',
+				// 	strokeWidth: 5,
+				// 	x: cvsMarLeft + IntranetAreaWidth - 260,
+				// 	y: cvsMarTop + CanvasContentHeight - 300,
+				// 	fontSize: 40,
+				// 	fontFamily: 'Microsoft YaHei',
+				// 	text: '语音网关'
+				// });
 
 				//intersection2
 				$('#cvs').drawImage({
@@ -330,10 +328,6 @@
 
 						layer.ServerList.sort(SortBy('OrderBy', true, parseInt));
 						var xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195;
-						if(iLayer == 1) {
-							xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195 - $(stoneData[0].ServerList).length * (235 + 62);
-						}
-
 						$(layer.ServerList).each(function(index, server) {
 
 							DrawServer($('#cvs'), xp, yp, 235, 640, server, GetFeaturesIcon(IntranetData[iLayer].Features, 'imgs/'), oFeatures);
@@ -355,95 +349,6 @@
 						});
 
 					});
-				}
-
-				//石头
-				StoneFn();
-				function StoneFn() {
-					//石头部分
-					//stoneData.ServerList.sort(SortBy('OrderBy', false, parseInt));
-					//console.log($(stoneData[0].ServerList).length)
-
-					$(stoneData[0].ServerList).each(function(iLayer, layer) {
-						var yp = 0;
-
-						//						var oFeatures = "#13aae1";
-						//						if(iLayer % 2)
-						//							oFeatures = '#22b14c';
-
-						yp = cvsMarTopSmall + 770 + 760;
-						console.log(iLayer)
-						var xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195 - (235 + 62) * iLayer;
-						stoneServer($('#cvs'), xp, yp, 235, 640, layer, GetFeaturesIcon(stoneData[0].Features, 'imgs/'), 'red');
-
-						$('#cvs').drawLine({
-							strokeStyle: 'red',
-							strokeWidth: 5.5,
-							x1: xp,
-							y1: yp,
-							x2: xp,
-							y2: yp - 45,
-						});
-						xp = xp - 300;
-					});
-				}
-
-				function stoneServer(cvs, x, y, w, h, json, icon, zoneclr) {
-					var x_start = x - w / 2;
-					y_start = y;
-					cvs.drawLine({
-						strokeStyle: zoneclr,
-						strokeWidth: 6,
-						strokeDash: [50, 30],
-						strokeDashOffset: 0,
-						x1: x_start,
-						y1: y_start,
-						x2: x_start + w,
-						y2: y_start,
-						x3: x_start + w,
-						y3: y_start + h,
-						x4: x_start,
-						y4: y_start + h,
-						closed: true
-					});
-
-					var oServerState = json.ServerState;
-					console.log()
-					cvs.drawImage({
-						source: 'imgs/'+json.Features.slice(4,json.Features.length)+'.png',
-						x: x,
-						y: y_start + 270,
-						fromCenter: true,
-						load: function() {
-							$('#cvs').drawImage({
-								source: GetStateIcon(json.ServerState, 'imgs/'),
-								x: x,
-								y: y + 245,
-								width: 48,
-								height: 48
-							});
-
-							$('#cvs').drawRect({
-								fillStyle: '#3a75c5',
-								x: x,
-								y: y + 380,
-								width: 200,
-								height: 30
-							});
-
-							$('#cvs').drawText({
-								fillStyle: '#FFF',
-								fontStyle: 'bold',
-								strokeWidth: 5,
-								x: x,
-								y: y + 380,
-								fontSize: 20,
-								fontFamily: 'Microsoft YaHei',
-								text: json.ServerName
-							});
-						}
-					});
-
 				}
 
 				var winCvsWidth = $('#container').width();
@@ -495,7 +400,7 @@
 			}
 
 			function GetFeaturesIcon(state, prefix) {
-				var suffix = "Server.png";
+				var suffix = "";
 				if(state == 1)
 					suffix = "owa.png";
 				else if(state == 2)
@@ -580,8 +485,8 @@
 				var oText1, oText3, oText3;
 
 				if(oServerState == 4) {
-					oText2 = "?/" + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100 + "%";
-					oText3 = '?/' + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
+					oText2 = "?/"+ (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100 + "%";
+					oText3 = '?/'+(Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
 				} else {
 					oText2 = Math.round((Math.round((json.UsedRAMMB / 1024) * 10) / 10) / (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100) + "%";
 					oText3 = (Math.round((json.UsedRAMMB / 1024) * 10) / 10) + '/' + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
@@ -633,7 +538,6 @@
 				});
 				//console.log(json)
 				//json.DiskList.sort(SortBy('Orderby', true, parseInt));
-
 				var diskcount = json.DiskList.length;
 				DiskListCont = json.DiskList;
 				if(diskcount > 2) {
@@ -661,7 +565,7 @@
 								fromCenter: false
 							});
 							if(oServerState == 4) {
-								oText = '?/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
+								oText = '?/'+ (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
 							} else {
 								if((Math.round((disk.TotalMB / 1024) * 10) / 10) > 999) {
 									oText = (Math.round((disk.UsedMB / 1024) * 10 / 1024) / 10) + '/' + (Math.round((disk.TotalMB / 1024 / 1024) * 10) / 10) + ' TB'
