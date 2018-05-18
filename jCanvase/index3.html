@@ -28,6 +28,11 @@
 				});
 			});
 
+			$(window).resize(function() {
+				var data = JSON.parse(sessionStorage.getItem('infoDATA'));
+				Draw1(data);
+			});
+
 			function Draw1(data) {
 				//内网与DMZ的间隔
 				var intervalNumber = 100;
@@ -109,9 +114,10 @@
 					"width": CanvasWidth,
 					"height": CanvasHeight
 				});
+
 				//生成canvas画布
 				$('canvas').drawRect({
-					fillStyle: '#FFF',
+					fillStyle: '#fff',
 					x: 0,
 					y: 0,
 					width: CanvasWidth,
