@@ -1,0 +1,380 @@
+﻿{
+  "PKID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
+  "TopographyName": "SharePoint拓扑",
+  "OrderBy": 3,
+  "IsCustom": true,
+  "SpecifiedWidth": 1063,
+  "SpecifiedHeight": 736,
+  "Features": "",
+  "GroupList": [
+    {
+      "PKID": "4d6fb0bb-aad5-4fb0-9601-aef39dd9c007",
+      "TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
+      "OrderBy": 1,
+      "GroupName": "SP APP",
+      "Features": "",
+      "ServerList": [
+        {
+          "PKID": "c30a0b41-b7f4-4db4-a58d-cbb51f4c7891",
+          "ServerName": "UC-SP-APP01",
+          "GroupId": "4d6fb0bb-aad5-4fb0-9601-aef39dd9c007",
+          "OrderBy": 1,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 24136,
+          "FreeRAMMBTimeSampled": "/Date(1525821908000)/",
+          "UsedRAMPct": 26.341473881976,
+          "UsedRAMPctTimeSampled": "/Date(1525821908417)/",
+          "UsedRAMMB": 8631.421875000022,
+          "FreeRAMPct": 73.658526118024,
+          "TotalRAMMB": 32767.421875000025,
+          "FQDN": "UC-SP-APP01.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "6779a4e5-6d26-45b3-b1fa-b8e00b95960f",
+              "CheckPointName": "SharePoint APP Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "c30a0b41-b7f4-4db4-a58d-cbb51f4c7891",
+              "OrderBy": 1,
+              "IconRefFlag": "service",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-APP01.corp.sinochem.com",
+              "ServerName": "UC-SP-APP01"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "c30a0b41-b7f4-4db4-a58d-cbb51f4c7891",
+              "Symbol": "C:",
+              "FreeMB": 127923,
+              "FreePct": 83.4755859375,
+              "FreeMBTimeSampled": "/Date(1525822178000)/",
+              "FreePctTimeSampled": "/Date(1525822178000)/",
+              "UsedMB": 25323.004281753412,
+              "UsedPct": 16.5244140625,
+              "TotalMB": 153246.0042817534,
+              "DiskState": 1
+            }
+          ]
+        },
+        {
+          "PKID": "5e3ea5d2-d6a3-4986-bff8-af3ab7d81390",
+          "ServerName": "UC-SP-APP02",
+          "GroupId": "4d6fb0bb-aad5-4fb0-9601-aef39dd9c007",
+          "OrderBy": 2,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 25266,
+          "FreeRAMMBTimeSampled": "/Date(1525821908000)/",
+          "UsedRAMPct": 22.4992430076558,
+          "UsedRAMPctTimeSampled": "/Date(1525822208267)/",
+          "UsedRAMMB": 7334.971887920868,
+          "FreeRAMPct": 77.50075699234421,
+          "TotalRAMMB": 32600.97188792087,
+          "FQDN": "UC-SP-APP02.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "fb65b550-bb83-47f2-9783-bc0080f3e2a9",
+              "CheckPointName": "SharePoint APP Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "5e3ea5d2-d6a3-4986-bff8-af3ab7d81390",
+              "OrderBy": 2,
+              "IconRefFlag": "service",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-APP02.corp.sinochem.com",
+              "ServerName": "UC-SP-APP02"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "5e3ea5d2-d6a3-4986-bff8-af3ab7d81390",
+              "Symbol": "C:",
+              "FreeMB": 130145,
+              "FreePct": 84.9255447387695,
+              "FreeMBTimeSampled": "/Date(1525822209000)/",
+              "FreePctTimeSampled": "/Date(1525822209000)/",
+              "UsedMB": 23100.999658083194,
+              "UsedPct": 15.074455261230497,
+              "TotalMB": 153245.9996580832,
+              "DiskState": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "PKID": "5084d6ab-c95a-4fe8-8fda-b62399b0892c",
+      "TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
+      "OrderBy": 2,
+      "GroupName": "SP WEB",
+      "Features": "2",
+      "ServerList": [
+        {
+          "PKID": "13ab769a-e43d-452f-ad40-70a15bf3d3b3",
+          "ServerName": "UC-SP-WEB01",
+          "GroupId": "5084d6ab-c95a-4fe8-8fda-b62399b0892c",
+          "OrderBy": 1,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 88315,
+          "FreeRAMMBTimeSampled": "/Date(1525822307000)/",
+          "UsedRAMPct": 32.6069991588037,
+          "UsedRAMPctTimeSampled": "/Date(1525822309493)/",
+          "UsedRAMMB": 42729.76562500005,
+          "FreeRAMPct": 67.3930008411963,
+          "TotalRAMMB": 131044.76562500003,
+          "FQDN": "UC-SP-WEB01.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "b1d1e30e-b464-4c00-b3bd-5bb821f3ff6a",
+              "CheckPointName": "SharePoint WEB Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "13ab769a-e43d-452f-ad40-70a15bf3d3b3",
+              "OrderBy": 1,
+              "IconRefFlag": "service",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-WEB01.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB01"
+            },
+            {
+              "PKID": "b1d1e30e-b464-4c00-b3bd-5bb821f3ff6a",
+              "CheckPointName": "SharePoint WEB IIS",
+              "CheckPointDisplayName": "WEB IIS",
+              "ObjRefIdentifier": "",
+              "ServerId": "13ab769a-e21d-452f-ad40-70a15bf3d3b3",
+              "OrderBy": 2,
+              "IconRefFlag": "iis",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-WEB01.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB01"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "13ab769a-e43d-452f-ad40-70a15bf3d3b3",
+              "Symbol": "C:",
+              "FreeMB": 135277,
+              "FreePct": 82.3609313964844,
+              "FreeMBTimeSampled": "/Date(1525822307000)/",
+              "FreePctTimeSampled": "/Date(1525822307000)/",
+              "UsedMB": 28971.99246073159,
+              "UsedPct": 17.639068603515597,
+              "TotalMB": 164248.9924607316,
+              "DiskState": 1
+            }
+          ]
+        },
+        {
+          "PKID": "0add4414-5c56-4a06-84d5-f1536d503f9a",
+          "ServerName": "UC-SP-WEB02",
+          "GroupId": "5084d6ab-c95a-4fe8-8fda-b62399b0892c",
+          "OrderBy": 2,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 102716,
+          "FreeRAMMBTimeSampled": "/Date(1525819953000)/",
+          "UsedRAMPct": 21.6214401924915,
+          "UsedRAMPctTimeSampled": "/Date(1525821154060)/",
+          "UsedRAMMB": 28335.144920578172,
+          "FreeRAMPct": 78.3785598075085,
+          "TotalRAMMB": 131051.14492057818,
+          "FQDN": "UC-SP-WEB02.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "8c2e3edd-3817-42e5-a72a-f599d5dbe8e2",
+              "CheckPointName": "SharePoint WEB Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "0add4414-5c56-4a06-84d5-f1536d503f9a",
+              "OrderBy": 1,
+              "IconRefFlag": "service",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-WEB02.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB02"
+            },
+            {
+              "PKID": "8c2e3edd-3817-42e5-a72a-f599d5dbe8e2",
+              "CheckPointName": "SharePoint WEB IIS",
+              "CheckPointDisplayName": "WEB IIS",
+              "ObjRefIdentifier": "",
+              "ServerId": "0add4414-5c56-4a06-84d5-f1536d503f9a",
+              "OrderBy": 2,
+              "IconRefFlag": "iis",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-WEB02.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB02"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "0add4414-5c56-4a06-84d5-f1536d503f9a",
+              "Symbol": "C:",
+              "FreeMB": 132937,
+              "FreePct": 80.9362640380859,
+              "FreeMBTimeSampled": "/Date(1525819953000)/",
+              "FreePctTimeSampled": "/Date(1525819953000)/",
+              "UsedMB": 31311.994662570913,
+              "UsedPct": 19.063735961914105,
+              "TotalMB": 164248.9946625709,
+              "DiskState": 1
+            }
+          ]
+        },
+        {
+          "PKID": "dfe190e8-1b7f-492e-90d4-3f1ca178c2bd",
+          "ServerName": "UC-SP-WEB03",
+          "GroupId": "5084d6ab-c95a-4fe8-8fda-b62399b0892c",
+          "OrderBy": 3,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 126435,
+          "FreeRAMMBTimeSampled": "/Date(1525819576000)/",
+          "UsedRAMPct": 3.51312439153367,
+          "UsedRAMPctTimeSampled": "/Date(1525818977390)/",
+          "UsedRAMMB": 4603.547162683589,
+          "FreeRAMPct": 96.48687560846633,
+          "TotalRAMMB": 131038.5471626836,
+          "FQDN": "UC-SP-WEB03.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "707b6a89-e282-444a-ae44-94efa20051c6",
+              "CheckPointName": "SharePoint WEB Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "dfe190e8-1b7f-492e-90d4-3f1ca178c2bd",
+              "OrderBy": 1,
+              "IconRefFlag": "service",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SQL03.corp.sinochem.com",
+              "ServerName": "UC-SQL03"
+            },
+            {
+              "PKID": "707b6a89-e282-444a-ae44-94efa20051c6",
+              "CheckPointName": "SharePoint WEB IIS",
+              "CheckPointDisplayName": "WEB IIS",
+              "ObjRefIdentifier": "",
+              "ServerId": "dfe190e8-1b7f-492e-90d4-3f1ca178c2bd",
+              "OrderBy": 2,
+              "IconRefFlag": "iis",
+              "CheckPointState": 2,
+              "ServerFQDN": "UC-SP-WEB03.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB03"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "dfe190e8-1b7f-492e-90d4-3f1ca178c2bd",
+              "Symbol": "C:",
+              "FreeMB": 137222,
+              "FreePct": 83.5451049804688,
+              "FreeMBTimeSampled": "/Date(1525819576000)/",
+              "FreePctTimeSampled": "/Date(1525819576000)/",
+              "UsedMB": 27027.00062317209,
+              "UsedPct": 16.454895019531193,
+              "TotalMB": 164249.0006231721,
+              "DiskState": 1
+            }
+          ]
+        },
+        {
+          "PKID": "b78845c3-07b4-4b2a-bc72-d87aa15d8496",
+          "ServerName": "UC-SP-WEB04",
+          "GroupId": "5084d6ab-c95a-4fe8-8fda-b62399b0892c",
+          "OrderBy": 4,
+          "Features": "",
+          "IsStone": false,
+          "ServerState": 1,
+          "FreeRAMMB": 127289,
+          "FreeRAMMBTimeSampled": "/Date(1525819582000)/",
+          "UsedRAMPct": 2.88051614041719,
+          "UsedRAMPctTimeSampled": "/Date(1525821983223)/",
+          "UsedRAMMB": 3775.3291556582485,
+          "FreeRAMPct": 97.11948385958281,
+          "TotalRAMMB": 131064.32915565824,
+          "FQDN": "UC-SP-WEB04.corp.sinochem.com",
+          "RAMState": 1,
+          "CheckPointList": [
+            {
+              "PKID": "1c1d332c-3dcd-486f-b7de-b92306b4d143",
+              "CheckPointName": "Skype WEB Services",
+              "CheckPointDisplayName": "Services",
+              "ObjRefIdentifier": "",
+              "ServerId": "b78845c3-07b4-4b2a-bc72-d87aa15d8496",
+              "OrderBy": 1,
+              "IconRefFlag": "service",
+              "CheckPointState": 3,
+              "ServerFQDN": "UC-SP-WEB04.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB04"
+            },
+            {
+              "PKID": "1c1d332c-3dcd-486f-b7de-b92306b4d143",
+              "CheckPointName": "Skype WEB IIS",
+              "CheckPointDisplayName": "WEB IIS",
+              "ObjRefIdentifier": "",
+              "ServerId": "b78845c3-07b4-4b2a-bc72-d87aa15d8496",
+              "OrderBy": 2,
+              "IconRefFlag": "iis",
+              "CheckPointState": 1,
+              "ServerFQDN": "UC-SP-WEB04.corp.sinochem.com",
+              "ServerName": "UC-SP-WEB04"
+            }
+          ],
+          "DiskList": [
+            {
+              "ServerId": "b78845c3-07b4-4b2a-bc72-d87aa15d8496",
+              "Symbol": "C:",
+              "FreeMB": 135983,
+              "FreePct": 82.7907638549805,
+              "FreeMBTimeSampled": "/Date(1525819583000)/",
+              "FreePctTimeSampled": "/Date(1525819583000)/",
+              "UsedMB": 28265.997917440487,
+              "UsedPct": 17.209236145019503,
+              "TotalMB": 164248.9979174405,
+              "DiskState": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "PKID": "7fd9293d-74a7-4bb4-bcd0-2263f688df5e",
+      "TopographyID": "631d3cf6-dad7-47af-b680-9d07a6f4c771",
+      "OrderBy": 3,
+      "GroupName": "SP REF",
+      "Features": "3",
+      "ServerList": [
+        {
+          "PKID": "df6e200a-1584-4139-8ec7-96e535708bab",
+          "ServerName": "UC-OWA",
+          "GroupId": "7fd9293d-74a7-4bb4-bcd0-2263f688df5e",
+          "OrderBy": 1,
+          "Features": "img:OWA-WEB",
+          "IsStone": true,
+          "ServerState": 1
+        },
+        {
+          "PKID": "df6e200a-1584-4139-8ec7-96e535708bab",
+          "ServerName": "UC-SQLVS05\\SP",
+          "GroupId": "7fd9293d-74a7-4bb4-bcd0-2263f688df5e",
+          "OrderBy": 2,
+          "Features": "img:DBInstance",
+          "IsStone": true,
+          "ServerState": 2
+        }
+      ]
+    }
+  ]
+}
