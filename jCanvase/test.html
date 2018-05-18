@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<!------分------割------线------>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="author" content="bruce-zxy">
+    <meta name="contact" content="bruce_zxy@163.com">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>New Test</title>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style type="text/css">
+	    body,html {
+	    	margin: 0;
+	    	padding: 0;
+	    	height: 100%;
+	    	width: 100%;
+	    	overflow: hidden;
+	    }
+	    canvas {
+	    	box-shadow: 2px 2px 10px #666;
+	    }
+    </style>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+	<!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/21.0.1/min/jcanvas.min.js"></script>
+</head>
+<!------分------割------线------>
+
+<body>
+
+	<canvas id="canvas"></canvas>
+
+</body>
+
+<!------分------割------线------>
+
+<script type="text/javascript">
+
+	var scale = 1;
+	var canvas = $('canvas');
+	var cx = 300;
+	var cy = 300;
+	canvas.prop({
+		width: window.innerWidth,
+		height: window.innerHeight
+	});
+
+	var scrollFunc = function(e) {
+
+	    e = e || window.event;
+	    if (e.wheelDelta) { //判断浏览器IE，谷歌滑轮事件             
+	        if (e.wheelDelta > 0) { //当滑轮向上滚动时
+	            scale = 1.1;
+	        }
+	        if (e.wheelDelta < 0) { //当滑轮向下滚动时
+	            scale = 0.9;
+	        }
+	    } else if (e.detail) { //Firefox滑轮事件
+	        if (e.detail > 0) { //当滑轮向上滚动时
+	            scale = 1.1;
+	        }
+	        if (e.detail < 0) { //当滑轮向下滚动时
+	            scale = 0.9;
+	        }
+	    }
+	    draw(canvas, cx, cy, e.clientX, e.clientY);
+	    scale = 1;
+	}
+	if (document.addEventListener) {
+	    document.addEventListener('DOMMouseScroll', scrollFunc, false);
+	} // W3C
+	window.onmousewheel = document.onmousewheel = scrollFunc; // IE/Opera/Chrome
+
+	$(window).resize(function(e) {
+		console.log(e.target.innerWidth);
+		canvas.prop({
+			width: e.target.innerWidth,
+			height: e.target.innerHeight
+		});
+		draw(canvas, cx, cy);
+	});
+
+	function draw(c, sx, sy) {
+
+	    canvas.clearCanvas().removeLayerGroup('shapes')
+		canvas.scaleCanvas({
+		    x: cx ? cx : 300,
+		    y: cy ? cy : 300,
+		    scaleX: scale,
+		    scaleY: scale
+		}).addLayer({
+	    	draggable: true,
+	    	groups: ['shapes'],
+	    	dragGroups: ['shapes'],
+	        type: 'rectangle',
+	        fillStyle: '#585',
+	        x: cx,
+	        y: cy,
+	        width: 600,
+	        height: 600,
+	        dragstop: function(layer) {
+	        	console.log(layer);
+	        	console.log(layer.x, layer.y);
+	        	cx = layer.x;
+	        	cy = layer.y;
+	        	draw(canvas, layer.x, layer.y);
+	        }
+	    })
+	    .drawLayers();
+		canvas.drawArc({
+			layer: true,
+			draggable: true,
+			groups: ['shapes'],
+			dragGroups: ['shapes'],
+		    fillStyle: '#000',
+		    x: cx -300 + 100,
+		    y: cy -300 + 100,
+		    radius: 20
+		}).drawArc({
+			layer: true,
+			draggable: true,
+			groups: ['shapes'],
+			dragGroups: ['shapes'],
+		    fillStyle: '#000',
+		    x: cx -300 + 200,
+		    y: cy -300 + 200,
+		    radius: 20
+		}).drawArc({
+			layer: true,
+			draggable: true,
+			groups: ['shapes'],
+			dragGroups: ['shapes'],
+		    fillStyle: '#000',
+		    x: cx -300 + 300,
+		    y: cy -300 + 300,
+		    radius: 20
+		}).drawArc({
+			layer: true,
+			draggable: true,
+			groups: ['shapes'],
+			dragGroups: ['shapes'],
+		    fillStyle: '#000',
+		    x: cx -300 + 400,
+		    y: cy -300 + 400,
+		    radius: 20
+		}).drawArc({
+			layer: true,
+			draggable: true,
+			groups: ['shapes'],
+			dragGroups: ['shapes'],
+		    fillStyle: '#000',
+		    x: cx -300 + 500,
+		    y: cy -300 + 500,
+		    radius: 20
+		})
+	}
+
+	draw(canvas, cx, cy);
+
+	// $('canvas').setLayer('myBox', {
+	//         fillStyle: '#36b',
+	//         rotate: 30,
+	//         x: '+=100',
+	//         y: '-=100'
+	//     })
+	//     .drawLayers();
+
+
+
+
+
+
+	// setInterval(() => {
+
+
+		// console.log(d3.select("body")
+	    	// .select("div")
+	     //    .selectAll("p")
+	     //    .data([4, 8, 15, 16, 23, 42])
+	     //    .text(function(d) { return d; }));
+	    // d3.select("body")
+	    // 	.select("div")
+	    //     .selectAll("p")
+	    //     .data([4, 8, 15, 16, 23, 42, 68, 80, 112])
+	        
+
+	    //     .enter().append("p")
+	    //     .text(function(d) {
+	    //         return "I’m number " + d + "!";
+	    //     });
+
+	    // Update…
+	//     var p = d3.select("body")
+	//       .selectAll("p")
+	//       .data([4, 8, 15, 16, 23, 42, 68, 80, 112])
+	//         .text(function(d) { return "I’m number " + d + "!"; }).enter().append("p")
+	//         .text(function(d) { return d; })
+
+	//     p.exit().remove();
+
+	// }, 3000)
+
+</script>
+
+</html>
