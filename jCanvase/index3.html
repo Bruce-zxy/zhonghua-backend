@@ -1,0 +1,793 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Systems</title>
+		<!--[if lt IE 9]>
+        <script src="../ref/html5shiv/html5shiv.min.js"></script>
+        <script src="../ref/respond/respond.min.js"></script>
+    <![endif]-->
+		<link href="./bootstrap.min.css" rel="stylesheet" />
+		<link href="./imageviewer.css" rel="stylesheet" />
+		<script src="./jquery.min.js"></script>
+		<script src="./imageviewer.min.js"></script>
+		<script src="./jcanvas.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					url: "exchange-fakedata3.json", //json文件位置
+					type: "GET", //请求方式为get
+					dataType: "json", //返回数据格式为json
+					success: function(data) { //请求成功完成后要执行的方法
+						sessionStorage.setItem('infoDATA', JSON.stringify(data));
+						Draw1(data);
+					}
+				});
+			});
+
+			$(window).resize(function() {
+				var data = JSON.parse(sessionStorage.getItem('infoDATA'));
+				Draw1(data);
+			});
+
+			function Draw1(data) {
+				//内网与DMZ的间隔
+				var intervalNumber = 100;
+				var cvsMarLeft = 200;
+				var cvsMarTop = 800;
+				var cvsMarTopSmall = 150;
+
+				$('.panel-heading span').text(data.TopographyName)
+
+				//切割数据
+				var Datas = data.GroupList
+				//内网数据
+				var IntranetData = Datas.splice(0, 2);
+				//石头数据
+				var stoneData = Datas.splice(0, 1);
+				//ARR数据
+				var ARRData = Datas.splice(0, 1);
+				//EDGE数据
+				var EDGEData = Datas.splice(0, 1);
+
+				//算出内网区域哪一组服务器最多;
+				var AiArr = [];
+				var IntranetContent = IntranetData;
+
+				for(var Ai = 0; Ai < IntranetContent.length; Ai++) {
+					AiArr.push(IntranetContent[Ai].ServerList.length);
+				}
+				//最多那一组服务器的台数
+				var maxIntranetServer = AiArr.sort(function(a, b) {
+					return b - a
+				})[0];
+				//内网区域宽度(IntranetArea)
+				var IntranetAreaWidth = 280 + 80 + (maxIntranetServer + $(stoneData[0].ServerList).length) * (235 + 60) + 500;
+
+				//DMZ 区域宽度(DMZArea)
+				var ARRContent = ARRData[0].ServerList.length;
+				var DNSWidth = 1160;
+				var DMZTopWidth = ARRContent * (35 + 245 + 35) + 205 + DNSWidth;
+				var ARRWidth = ARRContent * (35 + 245 + 35) + 205
+				//EDGE的宽度
+				var EDGEContent = EDGEData[0].ServerList.length;
+				var EDGEWidth = EDGEContent * (35 + 240 + 35);
+
+				//比较宽度选择DMZ使用的宽度
+				var maxDMZWidth = Math.max(DNSWidth, ARRWidth, EDGEWidth);
+
+				var DMZAreaWidth = 275 + maxDMZWidth + 275;
+
+				//画布的宽度
+				var CanvasWidth = cvsMarLeft + IntranetAreaWidth + 500 + DMZAreaWidth + 100
+				console.log('画布宽度：' + CanvasWidth);
+
+				//内网区域高度
+				var IntranetAreaHeight = 120 + IntranetContent.length * (45 + 640 + 45) + 120;
+
+				// DMZ的高度
+				var DMZTopARRHeight = 35 + 580 + 35;
+				//var ValueDNS = DNSData[0].ServerList.length;
+
+				//				var DMZTopDNSHeight = (ValueDNS % 4) ? (parseInt(ValueDNS / 4) + 1) * (24 + 180 + 24) + 50 : parseInt(ValueDNS / 4) * (24 + 180 + 24) + 50;
+
+				var DMZTopMaxHeight = Math.max(DMZTopARRHeight)
+
+				var DMZBottomDNSHeight = 35 + 510 + 35;
+
+				var DMZAreaHeight = 400 + DMZTopMaxHeight + 400 + DMZBottomDNSHeight + 120;
+
+				//画布的高度度
+				var CanvasHeight = cvsMarTop + Math.max(IntranetAreaHeight, DMZAreaHeight) + 800;
+				console.log('画布高度:' + CanvasHeight);
+
+				//画布虚线区域的高
+				var CanvasContentHeight = Math.max(IntranetAreaHeight, DMZAreaHeight) + 550;
+
+				console.log("左边内容区域高度:" + IntranetAreaHeight + "-----" + "右边内容区域高度:" + DMZAreaHeight);
+				//alert(IntranetAreaHeight)
+
+				console.log('画布左边虚线内容块的高度:' + CanvasContentHeight);
+
+				$('canvas').prop({
+					"width": CanvasWidth,
+					"height": CanvasHeight
+				});
+
+				//生成canvas画布
+				$('canvas').drawRect({
+					fillStyle: '#fff',
+					x: 0,
+					y: 0,
+					width: CanvasWidth,
+					height: CanvasHeight,
+					fromCenter: false,
+				});
+
+				//内网区域
+				$('#cvs').drawLine({
+					strokeStyle: '#c00000',
+					strokeWidth: 6,
+					strokeDash: [32, 20],
+					strokeDashOffset: 0,
+					x1: cvsMarLeft,
+					y1: cvsMarTop,
+					x2: cvsMarLeft + IntranetAreaWidth,
+					y2: cvsMarTop,
+					x3: cvsMarLeft + IntranetAreaWidth,
+					y3: cvsMarTop + CanvasContentHeight,
+					x4: cvsMarLeft,
+					y4: cvsMarTop + CanvasContentHeight,
+					closed: true
+				}).drawText({
+					fillStyle: '#c00000',
+					fontStyle: 'bold',
+					strokeWidth: 5,
+					x: cvsMarLeft + IntranetAreaWidth - 330,
+					y: cvsMarTop + CanvasContentHeight - 115,
+					fontSize: 40,
+					fontFamily: 'Microsoft YaHei',
+					text: '内网区域'
+				});;
+
+				//DMZ 区域
+				$('#cvs').drawLine({
+					strokeStyle: '#c00000',
+					strokeWidth: 6,
+					strokeDash: [32, 20],
+					strokeDashOffset: 0,
+					x1: cvsMarLeft + IntranetAreaWidth + intervalNumber,
+					y1: cvsMarTop,
+					x2: cvsMarLeft + IntranetAreaWidth + intervalNumber + DMZAreaWidth + 350,
+					y2: cvsMarTop,
+					x3: cvsMarLeft + IntranetAreaWidth + intervalNumber + DMZAreaWidth + 350,
+					y3: cvsMarTop + CanvasContentHeight,
+					x4: cvsMarLeft + IntranetAreaWidth + intervalNumber,
+					y4: cvsMarTop + CanvasContentHeight,
+					closed: true
+				}).drawText({
+					fillStyle: '#c00000',
+					fontStyle: 'bold',
+					strokeWidth: 5,
+					x: cvsMarLeft + IntranetAreaWidth + intervalNumber + 330,
+					y: cvsMarTop + CanvasContentHeight - 115,
+					fontSize: 40,
+					fontFamily: 'Microsoft YaHei',
+					text: 'DMZ区域'
+				});
+				//ARR - X 到左边距离
+				var ARRX = cvsMarLeft + IntranetAreaWidth + intervalNumber + 200;
+
+				//HTTP - interner nerwork
+				$('#cvs').drawImage({
+					source: 'imgs/cloud.png',
+					x: ARRX + ARRContent * (35 + 245 + 35) + 180,
+					y: cvsMarTopSmall + 300,
+					load: HttpSArrDns()
+				});
+
+				function HttpSArrDns() {
+					//HTTPS 到 ARR
+					$('#cvs').drawLine({
+						strokeStyle: '#ffc90e',
+						strokeWidth: 6,
+						x1: ARRX + ARRContent * (35 + 245 + 35) + 180,
+						y1: cvsMarTopSmall + 380,
+						x2: ARRX + (ARRContent * (35 + 245 + 35)) / 2,
+						y2: cvsMarTop + 335,
+					});
+
+					//HTTPS 到  EDGE
+					$('#cvs').drawLine({
+						strokeStyle: '#3a75c5',
+						strokeWidth: 6,
+						x1: ARRX + ARRContent * (35 + 245 + 35) + 180,
+						y1: cvsMarTopSmall + 380,
+						x2: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 180 + EDGEWidth / 2,
+						y2: cvsMarTop + 335 + 400 + DMZTopARRHeight
+					});
+
+				}
+
+				//ARR线框
+				$('canvas').drawLine({
+					strokeStyle: '#ffc90e',
+					strokeWidth: 6,
+					x1: ARRX,
+					y1: cvsMarTop + 335,
+					x2: ARRX + ARRContent * (35 + 245 + 35),
+					y2: cvsMarTop + 335,
+					x3: ARRX + ARRContent * (35 + 245 + 35),
+					y3: cvsMarTop + 335 + DMZTopARRHeight,
+					x4: ARRX,
+					y4: cvsMarTop + 335 + DMZTopARRHeight,
+					closed: true
+				});
+
+				//EDGE 线框
+				$('canvas').drawLine({
+					strokeStyle: '#3a75c5',
+					strokeWidth: 6,
+					x1: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 100,
+					y1: cvsMarTop + 335 + 400 + DMZTopARRHeight,
+					x2: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 100 + EDGEWidth,
+					y2: cvsMarTop + 335 + 400 + DMZTopARRHeight,
+					x3: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 100 + EDGEWidth,
+					y3: cvsMarTop + 335 + 400 + DMZTopARRHeight + 580,
+					x4: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 100,
+					y4: cvsMarTop + 335 + 400 + DMZTopARRHeight + 580,
+					closed: true
+
+				});
+
+				//map2
+				$('#cvs').drawImage({
+					source: 'imgs/Driver.png',
+					x: cvsMarLeft + IntranetAreaWidth - 260,
+					y: cvsMarTop + CanvasContentHeight - 400,
+					load: IntranetFn()
+				});
+
+				$('#cvs').drawText({
+					fillStyle: '#333',
+					fontStyle: 'bold',
+					strokeWidth: 5,
+					x: cvsMarLeft + IntranetAreaWidth - 260,
+					y: cvsMarTop + CanvasContentHeight - 300,
+					fontSize: 40,
+					fontFamily: 'Microsoft YaHei',
+					text: '语音网关'
+				});
+
+				//intersection2
+				$('#cvs').drawImage({
+					source: 'imgs/Firewall.png',
+					x: ARRX,
+					y: cvsMarTop + CanvasContentHeight - 400,
+					load: EDGE_intersection2()
+				});
+
+				function EDGE_intersection2() {
+					//  EDGE 到  intersection2 
+					$('#cvs').drawLine({
+						strokeStyle: '#3a75c5',
+						strokeWidth: 6,
+						x1: ARRX + (ARRContent - 1) * (35 + 245 + 35) + 100,
+						y1: cvsMarTop + 335 + 400 + DMZTopARRHeight + 580 / 2,
+						x2: ARRX,
+						y2: cvsMarTop + CanvasContentHeight - 400,
+					});
+
+					//  ARR 到  intersection2 
+					$('#cvs').drawLine({
+						strokeStyle: '#ffc90e',
+						strokeWidth: 6,
+						x1: ARRX,
+						y1: cvsMarTop + 335 + DMZTopARRHeight,
+						x2: ARRX,
+						y2: cvsMarTop + CanvasContentHeight - 400,
+					});
+				}
+
+				//ARR部分
+				ARRData[0].ServerList.sort(SortBy('OrderBy', true, parseInt));
+				x = ARRX + 160;
+				y = cvsMarTop + 335 + 35;
+				$(ARRData[0].ServerList).each(function(e, s) {
+					DrawServer($('#cvs'), x, y, 235, 575, s, GetFeaturesIcon(ARRData[0].Features, 'imgs/'), '#13aae1');
+					x = x + 310;
+				});
+
+				//EDGE部分
+				EDGEData[0].ServerList.sort(SortBy('OrderBy', true, parseInt));
+				var xx = ARRX + (ARRContent - 1) * (35 + 245 + 35) + 255;
+				yy = cvsMarTop + 335 + 400 + DMZTopARRHeight + 35;
+				$(EDGEData[0].ServerList).each(function(e, s) {
+					DrawServer($('#cvs'), xx, yy, 235, 505, s, GetFeaturesIcon(EDGEData[0].Features, 'imgs/'), '#22b14c');
+					xx = xx + 310;
+				});
+
+				function IntranetFn() {
+					//内网服务器部分
+					//把数据排成倒序
+					var LayerNumberArr = [];
+					for(var Ai = (IntranetData.length - 1); Ai >= 0; Ai--) {
+						LayerNumberArr.push(IntranetData[Ai].Orderby);
+					}
+
+					IntranetData.sort(SortBy('OrderBy', false, parseInt));
+					$(IntranetData).each(function(iLayer, layer) {
+						var yp = 0;
+
+						var oFeatures = "#13aae1";
+						if(iLayer % 2)
+							oFeatures = '#22b14c';
+
+						yp = cvsMarTopSmall + 770 + iLayer * 760;
+
+						layer.ServerList.sort(SortBy('OrderBy', true, parseInt));
+						var xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195;
+						if(iLayer == 1) {
+							xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195 - $(stoneData[0].ServerList).length * (235 + 62);
+						}
+
+						$(layer.ServerList).each(function(index, server) {
+
+							DrawServer($('#cvs'), xp, yp, 235, 640, server, GetFeaturesIcon(IntranetData[iLayer].Features, 'imgs/'), oFeatures);
+							$('#cvs').drawLine({
+								strokeStyle: '#68398a',
+								strokeWidth: 5.5,
+								x1: xp,
+								y1: yp,
+								x2: xp,
+								y2: yp - 45,
+								x3: cvsMarLeft + IntranetAreaWidth - 500,
+								y3: yp - 45,
+								x4: cvsMarLeft + IntranetAreaWidth - 500,
+								y4: cvsMarTop + CanvasContentHeight - 400,
+								x5: ARRX,
+								y5: cvsMarTop + CanvasContentHeight - 400
+							});
+							xp = xp - 300;
+						});
+
+					});
+				}
+
+				//石头
+				StoneFn();
+				function StoneFn() {
+					//石头部分
+					//stoneData.ServerList.sort(SortBy('OrderBy', false, parseInt));
+					//console.log($(stoneData[0].ServerList).length)
+
+					$(stoneData[0].ServerList).each(function(iLayer, layer) {
+						var yp = 0;
+
+						//						var oFeatures = "#13aae1";
+						//						if(iLayer % 2)
+						//							oFeatures = '#22b14c';
+
+						yp = cvsMarTopSmall + 770 + 760;
+						console.log(iLayer)
+						var xp = cvsMarLeft + IntranetAreaWidth - 500 - 80 - 195 - (235 + 62) * iLayer;
+						stoneServer($('#cvs'), xp, yp, 235, 640, layer, GetFeaturesIcon(stoneData[0].Features, 'imgs/'), 'red');
+
+						$('#cvs').drawLine({
+							strokeStyle: 'red',
+							strokeWidth: 5.5,
+							x1: xp,
+							y1: yp,
+							x2: xp,
+							y2: yp - 45,
+						});
+						xp = xp - 300;
+					});
+				}
+
+				function stoneServer(cvs, x, y, w, h, json, icon, zoneclr) {
+					var x_start = x - w / 2;
+					y_start = y;
+					cvs.drawLine({
+						strokeStyle: zoneclr,
+						strokeWidth: 6,
+						strokeDash: [50, 30],
+						strokeDashOffset: 0,
+						x1: x_start,
+						y1: y_start,
+						x2: x_start + w,
+						y2: y_start,
+						x3: x_start + w,
+						y3: y_start + h,
+						x4: x_start,
+						y4: y_start + h,
+						closed: true
+					});
+
+					var oServerState = json.ServerState;
+					console.log()
+					cvs.drawImage({
+						source: 'imgs/'+json.Features.slice(4,json.Features.length)+'.png',
+						x: x,
+						y: y_start + 270,
+						fromCenter: true,
+						load: function() {
+							$('#cvs').drawImage({
+								source: GetStateIcon(json.ServerState, 'imgs/'),
+								x: x,
+								y: y + 245,
+								width: 48,
+								height: 48
+							});
+
+							$('#cvs').drawRect({
+								fillStyle: '#3a75c5',
+								x: x,
+								y: y + 380,
+								width: 200,
+								height: 30
+							});
+
+							$('#cvs').drawText({
+								fillStyle: '#FFF',
+								fontStyle: 'bold',
+								strokeWidth: 5,
+								x: x,
+								y: y + 380,
+								fontSize: 20,
+								fontFamily: 'Microsoft YaHei',
+								text: json.ServerName
+							});
+						}
+					});
+
+				}
+
+				var winCvsWidth = $('#container').width();
+				var winCvsheight = $(window).height() - $('.panel-heading').outerHeight() - 40;
+				console.log(CanvasWidth, CanvasHeight)
+				if((CanvasWidth / CanvasHeight) >= (16 / 9) || $(window).height() >= $(window).width()) {
+					document.getElementById('cvs').style.width = winCvsWidth + "px";
+
+					disWinCvsheight = winCvsWidth * CanvasHeight / CanvasWidth;
+					$('#cvs').css("marginTop", (winCvsheight - disWinCvsheight) / 2)
+				} else if((CanvasWidth / CanvasHeight) < (16 / 9)) {
+					document.getElementById('cvs').style.height = winCvsheight + "px";
+
+					disWinCvswidth = winCvsheight * CanvasWidth / CanvasHeight;
+					$('#cvs').css("marginLeft", (winCvsWidth - disWinCvswidth) / 2)
+				}
+			}
+
+			var SortBy = function(filed, asc, primer) {
+				asc = (asc) ? 1 : -1;
+				return function(a, b) {
+					a = a[filed];
+					b = b[filed];
+					if(typeof(primer) != 'undefined') {
+						a = primer(a);
+						b = primer(b);
+					}
+					if(a < b) {
+						return asc * -1;
+					}
+					if(a > b) {
+						return asc * 1;
+					}
+					return 1;
+				}
+			};
+
+			function GetStateIcon(state, prefix) {
+				var suffix = "";
+				if(state == 1)
+					suffix = "info.png";
+				else if(state == 2)
+					suffix = "warning.png";
+				else if(state == 3)
+					suffix = "error.png";
+				else if(state == 4)
+					suffix = "crash.png";
+				return prefix + suffix;
+			}
+
+			function GetFeaturesIcon(state, prefix) {
+				var suffix = "Server.png";
+				if(state == 1)
+					suffix = "owa.png";
+				else if(state == 2)
+					suffix = "sql.png";
+				else if(state == 3)
+					suffix = "sfbpc.png";
+				else if(state == 4)
+					suffix = "FirewallServer.png";
+				else if(state == 5)
+					suffix = "Server.png";
+				return prefix + suffix;
+			}
+
+			function GetStateColor(state) {
+				var clr = "#F00";
+				if(state == 1)
+					clr = "#1afa29";
+				else if(state == 2)
+					clr = "#FF0";
+				else if(state == 3)
+					clr = "#F00";
+				else if(state == 4)
+					clr = "#8a8a8a";
+				return clr;
+			}
+
+			function DrawServer(cvs, x, y, w, h, json, icon, zoneclr) {
+				var x_start = x - w / 2;
+				y_start = y;
+				cvs.drawLine({
+					strokeStyle: zoneclr,
+					strokeWidth: 6,
+					strokeDash: [50, 30],
+					strokeDashOffset: 0,
+					x1: x_start,
+					y1: y_start,
+					x2: x_start + w,
+					y2: y_start,
+					x3: x_start + w,
+					y3: y_start + h,
+					x4: x_start,
+					y4: y_start + h,
+					closed: true
+				});
+				var oServerState = json.ServerState;
+
+				cvs.drawImage({
+					source: icon,
+					x: x,
+					y: y_start + 100,
+					fromCenter: true,
+					load: function() {
+						$('#cvs').drawImage({
+							source: GetStateIcon(json.ServerState, 'imgs/'),
+							x: x,
+							y: y + 60,
+							width: 48,
+							height: 48
+						});
+
+						$('#cvs').drawRect({
+							fillStyle: '#3a75c5',
+							x: x,
+							y: y + 210,
+							width: 150,
+							height: 30
+						});
+
+						$('#cvs').drawText({
+							fillStyle: '#FFF',
+							fontStyle: 'bold',
+							strokeWidth: 5,
+							x: x,
+							y: y + 210,
+							fontSize: 20,
+							fontFamily: 'Microsoft YaHei',
+							text: json.ServerName
+						});
+					}
+				});
+
+				var oText1, oText3, oText3;
+
+				if(oServerState == 4) {
+					oText2 = "?/" + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100 + "%";
+					oText3 = '?/' + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
+				} else {
+					oText2 = Math.round((Math.round((json.UsedRAMMB / 1024) * 10) / 10) / (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 100) + "%";
+					oText3 = (Math.round((json.UsedRAMMB / 1024) * 10) / 10) + '/' + (Math.round((json.TotalRAMMB / 1024) * 10) / 10) + ' GB';
+				}
+
+				cvs.drawText({
+					fillStyle: '#000',
+					fontStyle: 'bold',
+					strokeWidth: 5,
+					x: x_start + 16,
+					y: y_start + 235,
+					fontSize: 20,
+					fontFamily: 'Microsoft YaHei',
+					text: 'RAM: ' + oText3,
+					fromCenter: false
+				});
+
+				cvs.drawRect({
+					strokeStyle: '#eee',
+					strokeWidth: 4,
+					x: x_start + 16,
+					y: y_start + 260,
+					width: 204,
+					height: 20,
+					cornerRadius: 5,
+					fromCenter: false
+				});
+
+				cvs.drawRect({
+					fillStyle: GetStateColor(json.RAMState),
+					x: x_start + 18,
+					y: y_start + 262,
+					width: (Math.round((json.UsedRAMMB / 1024) * 10) / 10) / (Math.round((json.TotalRAMMB / 1024) * 10) / 10) * 200,
+					height: 16,
+					cornerRadius: 5,
+					fromCenter: false
+				});
+
+				cvs.drawText({
+					fillStyle: '#000',
+					fontStyle: 'bold',
+					strokeWidth: 5,
+					x: x_start + 22,
+					y: y_start + 264,
+					fontSize: 12,
+					fontFamily: 'Microsoft YaHei',
+					text: oText2,
+					fromCenter: false
+				});
+				//console.log(json)
+				//json.DiskList.sort(SortBy('Orderby', true, parseInt));
+
+				var diskcount = json.DiskList.length;
+				DiskListCont = json.DiskList;
+				if(diskcount > 2) {
+					DiskListCont = $(json.DiskList).splice(0, 2);
+				}
+				$(DiskListCont).each(function(index, disk) {
+					var ystart = y_start + index * 65;
+					cvs.drawImage({
+						source: 'imgs/Disk4.png',
+						x: x_start + 16,
+						y: ystart + 288,
+						width: 36,
+						height: 36,
+						fromCenter: false,
+						load: function() {
+							cvs.drawText({
+								fillStyle: '#000',
+								fontStyle: 'bold',
+								strokeWidth: 5,
+								x: x_start + 21,
+								y: ystart + 294,
+								fontSize: 18,
+								fontFamily: 'Microsoft YaHei',
+								text: disk.Symbol + '\\ ',
+								fromCenter: false
+							});
+							if(oServerState == 4) {
+								oText = '?/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
+							} else {
+								if((Math.round((disk.TotalMB / 1024) * 10) / 10) > 999) {
+									oText = (Math.round((disk.UsedMB / 1024) * 10 / 1024) / 10) + '/' + (Math.round((disk.TotalMB / 1024 / 1024) * 10) / 10) + ' TB'
+								} else {
+									oText = (Math.round((disk.UsedMB / 1024) * 10) / 10) + '/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
+								}
+							}
+
+							cvs.drawText({
+								fillStyle: '#000',
+								fontStyle: 'bold',
+								strokeWidth: 5,
+								x: x_start + 66,
+								y: ystart + 294,
+								fontSize: 20,
+								fontFamily: 'Microsoft YaHei',
+								text: oText,
+								fromCenter: false
+							});
+						}
+					});
+
+					cvs.drawRect({
+						strokeStyle: '#eee',
+						strokeWidth: 4,
+						x: x_start + 16,
+						y: y_start + index * 65 + 325,
+						width: 204,
+						height: 20,
+						cornerRadius: 5,
+						fromCenter: false
+					});
+
+					if(oServerState == 4) {
+						oText1 = "?%"
+					} else {
+						oText1 = Math.round((Math.round((disk.UsedMB / 1024) * 10) / 10) / (Math.round((disk.TotalMB / 1024) * 10) / 10) * 100) + "%";
+					}
+
+					//进度条
+					cvs.drawRect({
+						fillStyle: GetStateColor(disk.DiskState),
+						x: x_start + 18,
+						y: y_start + index * 65 + 327,
+						width: Math.round((Math.round((disk.UsedMB / 1024) * 10) / 10) / (Math.round((disk.TotalMB / 1024) * 10) / 10) * 200),
+						height: 16,
+						cornerRadius: 5,
+						fromCenter: false
+					});
+
+					cvs.drawText({
+						fillStyle: '#000',
+						fontStyle: 'bold',
+						strokeWidth: 5,
+						x: x_start + 22,
+						y: y_start + index * 65 + 329,
+						fontSize: 12,
+						fontFamily: 'Microsoft YaHei',
+						text: oText1,
+						fromCenter: false
+					});
+
+				});
+
+				json.CheckPointList.sort(SortBy('OrderBy', true, parseInt));
+				y_start = y_start + (DiskListCont.length - 1) * 65;
+				$(json.CheckPointList).each(function(index, cp) {
+					cvs.drawImage({
+						source: 'imgs/' + cp.IconRefFlag + '.png',
+						x: x_start + 35,
+						y: y_start + 50 * index + 380,
+						fromCenter: true
+					});
+					cvs.drawText({
+						fillStyle: '#000',
+						fontStyle: 'bold',
+						strokeWidth: 5,
+						x: x_start + 65,
+						y: y_start + 50 * index + 370,
+						fontSize: 24,
+						fontFamily: 'Trebuchet MS',
+						text: cp.CheckPointDisplayName,
+						fromCenter: false
+					});
+
+					cvs.drawImage({
+						source: GetStateIcon(cp.CheckPointState, "imgs/"),
+						x: x_start + 210,
+						y: y_start + 50 * index + 380,
+						width: 36,
+						height: 36,
+						fromCenter: true
+					});
+				});
+
+			}
+
+			function Zoom() {
+				//debugger;
+				var imgss = $('#cvs').getCanvasImage('png');
+				$('#img').attr('src', imgss);
+				var viewer = ImageViewer();
+
+				var imgSrc = imgss,
+					highResolutionImage = $('#img').data('high-res-img');
+
+				viewer.show(imgSrc, highResolutionImage);
+			}
+		</script>
+
+	</head>
+
+	<body style="width: 100%; height: 100%;  margin: 0; padding: 0; ">
+		<div class="panel panel-default" style="margin-bottom:0; border:none; box-shadow:none;">
+			<header class="panel-heading">
+				<span>Exchange 系统拓扑</span>
+				<button type="button" class="btn btn-success" onclick="Zoom()"><i class="fa fa-eye"></i> View </button>
+			</header>
+			<div class="panel-body" id="container">
+				<canvas id="cvs">
+                <p style="color: #c90000">您正在使用的浏览器不支持html5</p>
+                	最新版本的 Safari、Chrome、Firefox 以及 Opera 支持某些 HTML5 特性。Internet Explorer 9（及以上） 将支持某些 HTML5 特性。
+            </canvas>
+			</div>
+			<img id="img" alt="" class="gallery-items" style="display:none;" />
+		</div>
+	</body>
+
+</html>
