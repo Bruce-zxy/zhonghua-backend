@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<!------分------割------线------>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="author" content="bruce-zxy">
+    <meta name="contact" content="bruce_zxy@163.com">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Monitor Screen</title>
+    <link rel="stylesheet" type="text/css" href="" />
+    <style type="text/css">
+		body,html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		iframe {
+			width: 50%;
+			height: 50%;
+			float: left;
+			display: inline-block;
+		}
+    </style>
+
+</head>
+<!------分------割------线------>
+
+<body>
+
+	<iframe id="f1" name="f1" src="/test.html" frameborder="0"></iframe>
+	<iframe id="f2" name="f2" src="./index4.html" frameborder="0"></iframe>
+	<iframe id="f3" name="f3" src="/test.html" frameborder="0"></iframe>
+	<iframe id="f4" name="f4" src="./index4.html" frameborder="0"></iframe>
+
+</body>
+
+<!------分------割------线------>
+
+<script type="text/javascript">
+
+window.frames['f4'].setVal = true;
+
+
+console.log(window.frames);
+
+var t = setInterval(function() {
+	if(window.frames['f2'].setVal) {
+		console.log(window.frames['f1'].setVal)
+		console.log(window.frames['f2'].setVal)
+		console.log(window.frames['f3'].setVal)
+		console.log(window.frames['f4'].setVal)
+		clearInterval(t)
+	}
+}, 500)
+
+// var get = (dom) => document.getElementById(dom);
+
+// console.log(get('f1').contentWindow);
+
+
+// setInterval(function() {
+// 	if(get('f1').contentWindow.setVal) {
+// 		console.log(get('f1').contentWindow.setVal)
+// 		console.log(get('f2').contentWindow.setVal)
+// 		console.log(get('f3').contentWindow.setVal)
+// 		console.log(get('f4').contentWindow.setVal)
+// 	}
+// }, 500)
+
+</script>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Systems</title>
+    <!--[if lt IE 9]>
+        <script src="../ref/html5shiv/html5shiv.min.js"></script>
+        <script src="../ref/respond/respond.min.js"></script>
+    <![endif]-->
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <link href="./imageviewer.css" rel="stylesheet" />
+    <script src="./jquery.min.js"></script>
+    <script src="./imageviewer.min.js"></script>
+    <script src="./jcanvas.min.js"></script>
+    <script type="text/javascript">
+
+    $(function() {
+        $.ajax({
+            url: "exchange-fakedata4.json", //json文件位置
+            type: "GET", //请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function(data) { //请求成功完成后要执行的方法
+                sessionStorage.setItem('infoDATA', JSON.stringify(data));
+                draw(data);
+            }
+        });
+    });
+
+    $(window).resize(function() {
+        var data = JSON.parse(sessionStorage.getItem('infoDATA'));
+        draw(data);
+    });
+
+	var eleStartPointGroup = {}
+	var eleMarginTop       = 20;
+	var eleMarginBottom    = 20;
+	var eleMarginLeft      = 30;
+	var eleMarginRight     = 30;
+
+	function getBrushOffsetX() {
+		var offsetX = Math.max.apply(null, Array.prototype.slice.apply(arguments));
+		return 0 - (eleMarginLeft + eleMarginRight) * offsetX;
+	}
+
+    function getBrushOffsetY() {
+    	var offsetY;
+    	var arg = Array.prototype.slice.apply(arguments);
+    	arg.forEach(function (eleGroup) {
+    		eleGroup.forEach(function (ele) {
+    			// body...
+    		})
+    	})
+    	console.log(arg);
+    }
+
+    function setStartPoint() {
+    	var arg = Array.prototype.slice.apply(arguments);
+    	arg.forEach(function (eleGroup) {
+    		console.log(eleGroup);
+    		eleGroup.forEach(function (ele) {
+    			console.log(ele);
+    		})
+    	})
+    }
+
+    function draw(data) {
+
+		// 画布DOM元素
+		var cvs          = new createCVSClass($('#cvs'));
+		
+		// 根据屏幕比例获取画布宽高 return [type]: Array
+		var cvsWH        = getRatio(window.innerWidth, window.innerHeight);
+		
+		// 画布宽高
+		var cvsW         = cvsWH[0];
+		var cvsH         = cvsWH[1];
+		
+		// 画布中心点坐标
+		var cvsCenterX   = cvsW/2;
+		var cvsCenterY   = cvsH/2;
+		
+		// 获取画布名称
+		var Topo_Name    = data.TopographyName;
+		// 获取GroupList
+		var Group_List   = data.GroupList;
+		
+		// 分类数据及数量
+		var SP_APP       = Group_List[0];
+		// var SP_APP_COUNT = SP_APP.ServerList.length;
+		var SP_WEB       = Group_List[1];
+		// var SP_WEB_COUNT = SP_WEB.ServerList.length;
+		var SP_REF       = Group_List[2];
+		// var SP_REF_COUNT = SP_REF.ServerList.length;
+
+    	/* ------------------------------ */
+
+    	var cvsStartPointSet = setStartPoint(
+			[SP_APP, SP_WEB],
+			[SP_REF]
+    	)
+
+    	// var cvsBrushOffsetX = getBrushOffsetX(
+    	// 	SP_APP_COUNT + SP_REF_COUNT,
+    	// 	SP_WEB_COUNT
+    	// );
+    	// var cvsBrushOffsetY = getBrushOffsetY(
+    	// 	[SP_APP, SP_WEB],
+    	// 	[SP_REF]
+    	// )
+
+    	// console.log(cvsBrushOffsetX);
+    	// console.log(cvsBrushOffsetY);
+
+
+
+
+
+
+    	$('.panel-heading span').text(Topo_Name);
+
+    	cvs.prop({
+    		width: cvsW,
+    		height: cvsH
+    	});
+    	cvs.removeLayerGroup('Topology').clearCanvas();
+    	cvs.addLayerHelper({
+	        type: 'rectangle',
+	        fillStyle: '#585',
+	        x: cvsCenterX,
+	        y: cvsCenterY,
+	        width: cvsW,
+	        height: cvsH
+	    }).drawLayers();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    function createCVSClass(cvs) {
+		for (prop in cvs) this[prop] = cvs[prop];
+		this.initialStyle = {
+			// draggable: true,
+			groups: ['Topology'],
+			// dragGroups: ['Topology'],
+		}
+		this.drawStyle = $.extend({}, { layer: true }, this.initialStyle)
+    	this.drawLineHelper = function (param) {
+    		return this.drawLine($.extend({}, param, this.drawStyle))
+    	}
+    	this.drawRectHelper = function (param) {
+    		return this.drawRect($.extend({}, param, this.drawStyle))
+    	}
+    	this.drawTextHelper = function (param) {
+    		return this.drawText($.extend({}, param, this.drawStyle))
+    	}
+    	this.drawImageHelper = function (param) {
+    		return this.drawImage($.extend({}, param, this.drawStyle))
+    	}
+    	this.addLayerHelper = function (param) {
+    		return this.addLayer($.extend({}, param, this.initialStyle))
+    	}
+    }
+
+    // 根据屏幕比例设置画布宽高
+    function getRatio(vW, vH) {
+    	var ratioW = (vH - 100) * 16 / 9;
+    	if (ratioW < vW) {
+    		// 减去内边距和额头高
+    		var tempH = vH - 120;
+    		var tempW = Math.floor(tempH * 16 / 9);
+    		return [tempW, tempH];
+    	} else {
+    		// 有15px的内边距
+    		var tempW = vW - 30;
+    		var tempH = Math.floor(tempW * 9 / 16);
+    		return [tempW, tempH];
+    	}
+    }
+
+    function SortBy(filed, asc, primer) {
+        asc = (asc) ? 1 : -1;
+        return function(a, b) {
+            a = a[filed];
+            b = b[filed];
+            if (typeof(primer) != 'undefined') {
+                a = primer(a);
+                b = primer(b);
+            }
+            if (a < b) return asc * -1;
+            if (a > b) return asc * 1;
+            return 1;
+        }
+    };
+
+    function GetStateIcon(state, prefix) {
+        var suffix = "";
+        if (state == 1)
+            suffix = "info.png";
+        else if (state == 2)
+            suffix = "warning.png";
+        else if (state == 3)
+            suffix = "error.png";
+        else if (state == 4)
+            suffix = "crash.png";
+        return prefix + suffix;
+    }
+
+    function GetFeaturesIcon(state, prefix) {
+        var suffix = "Server.png";
+        if (state == 1)
+            suffix = "owa.png";
+        else if (state == 2)
+            suffix = "sql.png";
+        else if (state == 3)
+            suffix = "sfbpc.png";
+        else if (state == 4)
+            suffix = "FirewallServer.png";
+        else if (state == 5)
+            suffix = "Server.png";
+        return prefix + suffix;
+    }
+
+    function GetStateColor(state) {
+        var clr = "#F00";
+        if (state == 1)
+            clr = "#1afa29";
+        else if (state == 2)
+            clr = "#FF0";
+        else if (state == 3)
+            clr = "#F00";
+        else if (state == 4)
+            clr = "#8a8a8a";
+        return clr;
+    }
+
+    function Zoom() {
+        //debugger;
+        var imgss = $('#cvs').getCanvasImage('png');
+        $('#img').attr('src', imgss);
+        var viewer = ImageViewer();
+
+        var imgSrc = imgss,
+            highResolutionImage = $('#img').data('high-res-img');
+
+        viewer.show(imgSrc, highResolutionImage);
+    }
+
+    </script>
+</head>
+
+<body style="width: 100%; height: 100%;  margin: 0; padding: 0; ">
+    <div class="panel panel-default" style="margin-bottom:0; border:none; box-shadow:none;">
+        <header class="panel-heading">
+            <span>Exchange 系统拓扑</span>
+            <button type="button" class="btn btn-success" onclick="Zoom()"><i class="fa fa-eye"></i> View </button>
+        </header>
+        <div class="panel-body" id="container">
+            <canvas id="cvs" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()" style="display:block;
+			margin: 0 auto;">
+                <p style="color: #c90000">您正在使用的浏览器不支持html5</p>
+                最新版本的 Safari、Chrome、Firefox 以及 Opera 支持某些 HTML5 特性。Internet Explorer 9（及以上） 将支持某些 HTML5 特性。
+            </canvas>
+            <div id="xycoordinates" style="position: fixed; top: 0; right: 30px; line-height: 55px"></div>
+        </div>
+        <img id="img" alt="" class="gallery-items" style="display:none;" />
+    </div>
+</body>
+
+<script type="text/javascript">
+	function cnvs_getCoordinates(e) {
+	    console.log();
+	    x = e.clientX - e.target.offsetLeft;
+	    y = e.clientY - e.target.offsetTop;
+	    document.getElementById("xycoordinates").innerHTML = "坐标: (" + x + "px," + y + "px)";
+	}
+
+	function cnvs_clearCoordinates() {
+	    document.getElementById("xycoordinates").innerHTML = "";
+	}
+</script>
+
+</html>
