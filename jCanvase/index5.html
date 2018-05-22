@@ -35,36 +35,12 @@
     });
 
 	var eleStartPointGroup = {}
+	var eleWidth           = 240;
+	var eleHeight          = 540;
 	var eleMarginTop       = 20;
 	var eleMarginBottom    = 20;
 	var eleMarginLeft      = 30;
 	var eleMarginRight     = 30;
-
-	function getBrushOffsetX() {
-		var offsetX = Math.max.apply(null, Array.prototype.slice.apply(arguments));
-		return 0 - (eleMarginLeft + eleMarginRight) * offsetX;
-	}
-
-    function getBrushOffsetY() {
-    	var offsetY;
-    	var arg = Array.prototype.slice.apply(arguments);
-    	arg.forEach(function (eleGroup) {
-    		eleGroup.forEach(function (ele) {
-    			// body...
-    		})
-    	})
-    	console.log(arg);
-    }
-
-    function setStartPoint() {
-    	var arg = Array.prototype.slice.apply(arguments);
-    	arg.forEach(function (eleGroup) {
-    		console.log(eleGroup);
-    		eleGroup.forEach(function (ele) {
-    			console.log(ele);
-    		})
-    	})
-    }
 
     function draw(data) {
 
@@ -75,8 +51,8 @@
 		var cvsWH        = getRatio(window.innerWidth, window.innerHeight);
 		
 		// 画布宽高
-		var cvsW         = cvsWH[0];
-		var cvsH         = cvsWH[1];
+		var cvsW         = cvsWH[0] * 2;
+		var cvsH         = cvsWH[1] * 2;
 		
 		// 画布中心点坐标
 		var cvsCenterX   = cvsW/2;
@@ -89,35 +65,25 @@
 		
 		// 分类数据及数量
 		var SP_APP       = Group_List[0];
-		// var SP_APP_COUNT = SP_APP.ServerList.length;
+		var SP_APP_COUNT = SP_APP.ServerList.length;
 		var SP_WEB       = Group_List[1];
-		// var SP_WEB_COUNT = SP_WEB.ServerList.length;
+		var SP_WEB_COUNT = SP_WEB.ServerList.length;
 		var SP_REF       = Group_List[2];
-		// var SP_REF_COUNT = SP_REF.ServerList.length;
+		var SP_REF_COUNT = SP_REF.ServerList.length;
 
     	/* ------------------------------ */
 
-    	var cvsStartPointSet = setStartPoint(
-			[SP_APP, SP_WEB],
-			[SP_REF]
+    	var cvsBrushOffsetX = getBrushOffsetX(
+    		SP_APP_COUNT + SP_REF_COUNT,
+    		SP_WEB_COUNT
+    	);
+    	var cvsBrushOffsetY = getBrushOffsetY(
+    		[SP_APP, SP_WEB],
+    		[SP_REF]
     	)
 
-    	// var cvsBrushOffsetX = getBrushOffsetX(
-    	// 	SP_APP_COUNT + SP_REF_COUNT,
-    	// 	SP_WEB_COUNT
-    	// );
-    	// var cvsBrushOffsetY = getBrushOffsetY(
-    	// 	[SP_APP, SP_WEB],
-    	// 	[SP_REF]
-    	// )
-
-    	// console.log(cvsBrushOffsetX);
-    	// console.log(cvsBrushOffsetY);
-
-
-
-
-
+    	var cvsBrushStartPointX = cvsCenterX - cvsBrushOffsetX / 2 * (eleMarginLeft + eleMarginRight + eleWidth);
+    	var cvsBrushStartPointY = cvsCenterY - cvsBrushOffsetY / 2 * (eleMarginTop + eleMarginBottom + eleHeight);
 
     	$('.panel-heading span').text(Topo_Name);
 
@@ -125,29 +91,328 @@
     		width: cvsW,
     		height: cvsH
     	});
-    	cvs.removeLayerGroup('Topology').clearCanvas();
-    	cvs.addLayerHelper({
-	        type: 'rectangle',
-	        fillStyle: '#585',
-	        x: cvsCenterX,
-	        y: cvsCenterY,
-	        width: cvsW,
-	        height: cvsH
-	    }).drawLayers();
+    	cvs.css({
+    		width: cvsW / 2 + 'px',
+    		height: cvsH / 2 + 'px',
+    	})
+    	cvs.clearCanvas();
+    	//生成canvas画布
+    	$('canvas').drawRect({
+    		fillStyle: '#fff',
+    		x: 0,
+    		y: 0,
+    		width: cvsW,
+    		height: cvsH,
+    		fromCenter: false,
+    	});
+
+    	SP_WEB.ServerList.forEach(function(ele, i) {
+    		var serverIcon = GetFeaturesIcon(SP_WEB.Features);
+    		var startPointX = cvsBrushStartPointX;
+    		var startPointY = cvsBrushStartPointY;
+			drawServerList(cvs, ele, i, startPointX, startPointY, serverIcon);
+    	})
+
+    	SP_APP.ServerList.forEach(function(ele, i) {
+    		var serverIcon = GetFeaturesIcon(SP_APP.Features);
+    		var startPointX = cvsBrushStartPointX;
+    		var startPointY = cvsCenterY;
+    		drawServerList(cvs, ele, i, startPointX, startPointY, serverIcon)
+    	})
+
+    	SP_REF.ServerList.forEach(function(ele, i) {
+    		var serverIcon = GetStoneIcon(ele.Features);
+    		var startPointX = cvsCenterX;
+    		var startPointY = cvsCenterY;
+    		drawStoneServer(cvs, ele, i, startPointX, startPointY, serverIcon)
+    	})
+    }
+
+    function drawStoneServer(cvs, ele, i, x, y, serverIcon) {
+    	var w = eleWidth;
+    	var h = eleHeight;
+    	x     = x + eleMarginLeft + (eleWidth + eleMarginLeft + eleMarginRight) * i;
+    	y     = y + eleMarginTop;
+    	var x_start = x - w / 2;
+    	var y_start = y;
+
+    	var oServerState = ele.ServerState;
+    	cvs.drawImage({
+    		source: serverIcon,
+    		x: x + w / 2,
+    		y: y_start + 225,
+    		fromCenter: true,
+    		load: function() {
+    			$('#cvs').drawImage({
+    				source: GetStateIcon(ele.ServerState),
+    				x: x + w / 2,
+    				y: y + 200,
+    				width: 50,
+    				height: 50
+    			});
+
+    			$('#cvs').drawRect({
+    				fillStyle: '#3a75c5',
+    				x: x + w / 2,
+    				y: y + 335,
+    				width: 200,
+    				height: 40
+    			});
+
+    			$('#cvs').drawText({
+    				fillStyle: '#FFF',
+    				fontStyle: 'bold',
+    				strokeWidth: 5,
+    				x: x + w / 2,
+    				y: y + 335,
+    				fontSize: 20,
+    				fontFamily: 'Microsoft YaHei',
+    				text: ele.ServerName
+    			});
+    		}
+    	});
+    }
+
+    function drawServerList(cvs, ele, i, x, y, serverIcon) {
+		var w = eleWidth;
+		var h = eleHeight;
+		// x,y为画笔坐标
+		x     = x + eleMarginLeft + (eleWidth + eleMarginLeft + eleMarginRight) * i;
+		y     = y + eleMarginTop;
+
+    	cvs.drawLine({
+    	    strokeStyle: '#13aae1',
+    	    strokeWidth: 5,
+    	    strokeDash: [20, 30],
+    	    strokeDashOffset: 0,
+    	    x1: x,
+    	    y1: y,
+    	    x2: x + w,
+    	    y2: y,
+    	    x3: x + w,
+    	    y3: y + h,
+    	    x4: x,
+    	    y4: y + h,
+    	    closed: true
+    	});
+
+    	cvs.drawImage({
+    	    source: serverIcon,
+    	    x: x + w / 2,
+    	    y: y + (w - eleMarginLeft - eleMarginRight) * 1.38 / 2,
+    	    width: w - eleMarginLeft - eleMarginRight - 2 * eleMarginLeft,
+    	    height: (w - eleMarginLeft - eleMarginRight - 2 * eleMarginLeft) * 1.38,
+    	    fromCenter: true,
+    	    load: function() {
+    	        cvs.drawImage({
+    	            source: GetStateIcon(ele.ServerState),
+    	            x: x + w / 2,
+    	            y: y + eleMarginTop * 4,
+    	            width: 50,
+    	            height: 50
+    	        });
+    	    }
+    	});
+
+    	cvs.drawRect({
+    	    fillStyle: '#3a75c5',
+    	    x: x + w / 2,
+    	    y: y + 250,
+    	    width: w - eleMarginLeft - eleMarginRight,
+    	    height: 40
+    	});
+
+    	cvs.drawText({
+    	    fillStyle: '#FFF',
+    	    fontStyle: 'bold',
+    	    strokeWidth: 5,
+    	    x: x + w / 2,
+    	    y: y + 250,
+    	    fontSize: 20,
+    	    fontFamily: 'Microsoft YaHei',
+    	    text: ele.ServerName
+    	});
+
+    	var oText1, oText2, oText3;
+
+    	if (ele.ServerState == 4) {
+    	    oText2 = "?/" + (Math.round((ele.TotalRAMMB / 1024) * 10) / 10) * 100 + "%";
+    	    oText3 = '?/' + (Math.round((ele.TotalRAMMB / 1024) * 10) / 10) + ' GB';
+    	} else {
+    	    oText2 = Math.round((Math.round((ele.UsedRAMMB / 1024) * 10) / 10) / (Math.round((ele.TotalRAMMB / 1024) * 10) / 10) * 100) + "%";
+    	    oText3 = (Math.round((ele.UsedRAMMB / 1024) * 10) / 10) + '/' + (Math.round((ele.TotalRAMMB / 1024) * 10) / 10) + ' GB';
+    	}
+
+    	cvs.drawText({
+    	    fillStyle: '#000',
+    	    fontStyle: 'bold',
+    	    strokeWidth: 5,
+    	    x: x + eleMarginLeft,
+    	    y: y + 285,
+    	    fontSize: 20,
+    	    fontFamily: 'Microsoft YaHei',
+    	    text: 'RAM: ' + oText3,
+    	    fromCenter: false
+    	});
+
+    	cvs.drawRect({
+    	    strokeStyle: '#eee',
+    	    strokeWidth: 4,
+    	    x: x + eleMarginLeft,
+    	    y: y + 320,
+    	    width: w - eleMarginLeft - eleMarginRight,
+    	    height: 20,
+    	    cornerRadius: 5,
+    	    fromCenter: false
+    	});
+
+    	cvs.drawRect({
+    	    fillStyle: GetStateColor(ele.RAMState),
+    	    x: x + eleMarginLeft + 2,
+    	    y: y + 322,
+    	    width: (Math.round((ele.UsedRAMMB / 1024) * 10) / 10) / (Math.round((ele.TotalRAMMB / 1024) * 10) / 10) * (w - eleMarginLeft - eleMarginRight),
+    	    height: 16,
+    	    cornerRadius: 5,
+    	    fromCenter: false
+    	});
+
+    	cvs.drawText({
+    	    fillStyle: '#000',
+    	    fontStyle: 'bold',
+    	    strokeWidth: 5,
+    	    x: x + eleMarginLeft + 6,
+    	    y: y + 322,
+    	    fontSize: 16,
+    	    fontFamily: 'Microsoft YaHei',
+    	    text: oText2,
+    	    fromCenter: false
+    	});
 
 
 
+		var diskcount    	= ele.DiskList.length;
+		var DiskListCont 	= ele.DiskList;
+		if (diskcount > 2) {
+			DiskListCont    = $(ele.DiskList).splice(0, 2);
+		}
+    	$(DiskListCont).each(function(index, disk) {
+    	    var ystart = y + index * 65;
+    	    cvs.drawImage({
+    	        source: 'imgs/Disk4.png',
+    	        x: x + eleMarginLeft - 5,
+    	        y: ystart + 350,
+    	        width: 36,
+    	        height: 36,
+    	        fromCenter: false,
+    	        load: function() {
+    	            cvs.drawText({
+    	                fillStyle: '#000',
+    	                fontStyle: 'bold',
+    	                strokeWidth: 5,
+    	                x: x + eleMarginLeft,
+    	                y: ystart + 356,
+    	                fontSize: 18,
+    	                fontFamily: 'Microsoft YaHei',
+    	                text: disk.Symbol + '\\ ',
+    	                fromCenter: false
+    	            });
+    	        }
+    	    });
 
+    	    if (ele.ServerState == 4) {
+    	        oText = '?/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
+    	    } else {
+    	        if ((Math.round((disk.TotalMB / 1024) * 10) / 10) > 999) {
+    	            oText = (Math.round((disk.UsedMB / 1024) * 10 / 1024) / 10) + '/' + (Math.round((disk.TotalMB / 1024 / 1024) * 10) / 10) + ' TB'
+    	        } else {
+    	            oText = (Math.round((disk.UsedMB / 1024) * 10) / 10) + '/' + (Math.round((disk.TotalMB / 1024) * 10) / 10) + ' GB';
+    	        }
+    	    }
 
+    	    cvs.drawText({
+    	        fillStyle: '#000',
+    	        fontStyle: 'bold',
+    	        strokeWidth: 5,
+    	        x: x + eleMarginLeft + 40,
+    	        y: ystart + 356,
+    	        fontSize: 20,
+    	        fontFamily: 'Microsoft YaHei',
+    	        text: oText,
+    	        fromCenter: false
+    	    });
 
+    	    cvs.drawRect({
+    	        strokeStyle: '#eee',
+    	        strokeWidth: 4,
+    	        x: x + eleMarginLeft,
+    	        y: y + index * 65 + 390,
+    	        width: (w - eleMarginLeft - eleMarginRight),
+    	        height: 20,
+    	        cornerRadius: 5,
+    	        fromCenter: false
+    	    });
 
+    	    if (ele.ServerState == 4) {
+    	        oText1 = "?%"
+    	    } else {
+    	        oText1 = Math.round((Math.round((disk.UsedMB / 1024) * 10) / 10) / (Math.round((disk.TotalMB / 1024) * 10) / 10) * 100) + "%";
+    	    }
 
+    	    //进度条
+    	    cvs.drawRect({
+    	        fillStyle: GetStateColor(disk.DiskState),
+    	        x: x + eleMarginLeft + 2,
+    	        y: y + index * 65 + 392,
+    	        width: Math.round((Math.round((disk.UsedMB / 1024) * 10) / 10) / (Math.round((disk.TotalMB / 1024) * 10) / 10) * 200),
+    	        height: 16,
+    	        cornerRadius: 5,
+    	        fromCenter: false
+    	    });
 
+    	    cvs.drawText({
+    	        fillStyle: '#000',
+    	        fontStyle: 'bold',
+    	        strokeWidth: 5,
+    	        x: x + eleMarginLeft + 6,
+    	        y: y + index * 65 + 392,
+    	        fontSize: 16,
+    	        fontFamily: 'Microsoft YaHei',
+    	        text: oText1,
+    	        fromCenter: false
+    	    });
 
+    	});
 
+    	ele.CheckPointList.sort(SortBy('OrderBy', true, parseInt));
+    	y = y + (DiskListCont.length - 1) * 65;
+    	$(ele.CheckPointList).each(function(index, cp) {
+    	    cvs.drawImage({
+    	        source: 'imgs/' + cp.IconRefFlag + '.png',
+    	        x: x + eleMarginLeft * 1.5,
+    	        y: y + 50 * index + 450,
+    	        fromCenter: true
+    	    });
+    	    cvs.drawText({
+    	        fillStyle: '#000',
+    	        fontStyle: 'bold',
+    	        strokeWidth: 5,
+    	        x: x + eleMarginLeft * 2.4,
+    	        y: y + 50 * index + 440,
+    	        fontSize: 24,
+    	        fontFamily: 'Trebuchet MS',
+    	        text: cp.CheckPointDisplayName,
+    	        fromCenter: false
+    	    });
 
-
-
+    	    cvs.drawImage({
+    	        source: GetStateIcon(cp.CheckPointState),
+    	        x: x + eleMarginLeft * 6.5,
+    	        y: y + 50 * index + 450,
+    	        width: 36,
+    	        height: 36,
+    	        fromCenter: true
+    	    });
+    	});
 
     }
 
@@ -192,6 +457,14 @@
     	}
     }
 
+	function getBrushOffsetX() {
+		return Math.max.apply(null, Array.prototype.slice.apply(arguments));
+	}
+
+    function getBrushOffsetY() {
+    	return Array.prototype.slice.apply(arguments).length;
+    }
+
     function SortBy(filed, asc, primer) {
         asc = (asc) ? 1 : -1;
         return function(a, b) {
@@ -207,45 +480,55 @@
         }
     };
 
-    function GetStateIcon(state, prefix) {
-        var suffix = "";
-        if (state == 1)
-            suffix = "info.png";
-        else if (state == 2)
-            suffix = "warning.png";
-        else if (state == 3)
-            suffix = "error.png";
-        else if (state == 4)
-            suffix = "crash.png";
-        return prefix + suffix;
+    function GetStateIcon(state) {
+        switch(state*1) {
+        	case 1:
+        		return "imgs/info.png";
+        	case 2:
+        		return "imgs/warning.png";
+        	case 3:
+        		return "imgs/error.png";
+    		case 4:
+    			return "imgs/crash.png";
+    		default:
+    			return "";
+        }
     }
 
-    function GetFeaturesIcon(state, prefix) {
-        var suffix = "Server.png";
-        if (state == 1)
-            suffix = "owa.png";
-        else if (state == 2)
-            suffix = "sql.png";
-        else if (state == 3)
-            suffix = "sfbpc.png";
-        else if (state == 4)
-            suffix = "FirewallServer.png";
-        else if (state == 5)
-            suffix = "Server.png";
-        return prefix + suffix;
+    function GetStoneIcon(icon) {
+    	return 'imgs/' + icon.replace('img:', '') + '.png';
+    }
+
+    function GetFeaturesIcon(state) {
+	    switch(state*1) {
+	    	case 1:
+	    		return "imgs/owa.png";
+	    	case 2:
+	    		return "imgs/sql.png";
+	    	case 3:
+	    		return "imgs/sfbpc.png";
+			case 4:
+				return "imgs/FirewallServer.png";
+			case 5:
+				return "imgs/Server.png";
+			default:
+				return "imgs/Server.png";
+	    }
     }
 
     function GetStateColor(state) {
-        var clr = "#F00";
-        if (state == 1)
-            clr = "#1afa29";
-        else if (state == 2)
-            clr = "#FF0";
-        else if (state == 3)
-            clr = "#F00";
-        else if (state == 4)
-            clr = "#8a8a8a";
-        return clr;
+	    switch(state*1) {
+	    	case 1:
+	    		return "#1afa29";
+	    	case 2:
+	    		return "#FF0";
+	    	case 3:
+	    		return "#F00";
+			case 4:
+				return "#8a8a8a";
+			default:
+				return "#F00";
+	    }
     }
 
     function Zoom() {
