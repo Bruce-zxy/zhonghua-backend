@@ -50,6 +50,17 @@
         }
     });
 
+
+    $('.animsition').on('animsition.inStart', function(a, b){
+        console.log(a);
+        console.log(b);
+    })
+
+    setTimeout(function() {
+        console.log($('.animsition-link')[0]);
+        $('.animsition-link')[0].click();
+    }, 3000);
+
 // Barba.Pjax.start();
 </script>
 
