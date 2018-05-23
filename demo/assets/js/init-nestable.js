@@ -149,8 +149,9 @@ var Nestable = function() {
 
 		$('#nestable_list').html(createOl);
 
-		$('.dd_item_nestable').nestable();
-		$('.dd_item_nestable').nestable('collapseAll');
+		// $('.dd_item_nestable').nestable();
+		$('#nestable_list').nestable({ maxDepth: 1 });
+		// $('.dd_item_nestable').nestable('collapseAll');
 	}
 
 }();

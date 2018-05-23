@@ -550,13 +550,14 @@
 		function Zoom() {
 				//debugger;
 				var imgss = $('#cvs').getCanvasImage('png');
-				$('#img').attr('src', imgss);
-				var viewer = ImageViewer();
+				parent.Zoom(imgss);
+				// $('#img').attr('src', imgss);
+				// var viewer = ImageViewer();
 
-				var imgSrc = imgss,
-					highResolutionImage = $('#img').data('high-res-img');
+				// var imgSrc = imgss,
+				// 	highResolutionImage = $('#img').data('high-res-img');
 
-				viewer.show(imgSrc, highResolutionImage);
+				// viewer.show(imgSrc, highResolutionImage);
 			}
 		</script>
 
