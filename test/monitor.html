@@ -13,12 +13,16 @@
     <title>New Test</title>
     <link rel="stylesheet" type="text/css" href="./common.css" />
     <script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/barba.js/1.0.0/barba.min.js" type="text/javascript"></script>
     <style type="text/css">
+        a {
+            display: none;
+        }
         iframe {
             width: 50%;
             height: 50%;
-            float: left;
             display: inline-block;
+            float: left;
         }
     </style>
 
@@ -27,16 +31,47 @@
 
 <body>
 
-	<iframe id="f1" name="f1" src="f1.html" frameborder="none"></iframe>
+    <div id="barba-wrapper">
 
-	<iframe id="f2" name="f2" src="f2.html" frameborder="none"></iframe>
+        <div class="barba-container">
 
-    <iframe id="f3" name="f3" src="f3.html" frameborder="none"></iframe>
+            <iframe id="f1" name="f1" src="f1.html" frameborder="none"></iframe>
 
-    <iframe id="f4" name="f4" src="f4.html" frameborder="none"></iframe>
+            <iframe id="f2" name="f2" src="f2.html" frameborder="none"></iframe>
+
+            <iframe id="f3" name="f3" src="f3.html" frameborder="none"></iframe>
+
+            <iframe id="f4" name="f4" src="f4.html" frameborder="none"></iframe>
+
+        </div>
+
+    </div>
+
+    <a href="javascript:;"></a>
 
 </body>
 
 <!------分------割------线------>
+
+<script type="text/javascript">
+
+    Barba.Pjax.start();
+
+    var HideShowTransition = Barba.BaseTransition.extend({
+      start: function() {
+        this.newContainerLoading.then(this.finish.bind(this));
+      },
+
+      finish: function() {
+        document.body.scrollTop = 0;
+        this.done();
+      }
+    });
+
+    Barba.Pjax.getTransition = function() {
+      return HideShowTransition;
+    };
+
+</script>
 
 </html>
