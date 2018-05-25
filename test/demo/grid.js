@@ -90,8 +90,11 @@ document.addEventListener("DOMContentLoaded", function() {
 function setClickEvent(frames) {
   Object.keys(frames).forEach(function (item, index) {
     frames[item].onload = function (e) {
-      frames[item].contentDocument.getElementsByClassName('barba-container')[0].onclick = function (e) {
-        document.getElementsByTagName('a')[index].click();
+      document.getElementsByTagName('a')[index].onclick = function (e) {
+        e.preventDefault();
+      // frames[item].contentDocument.getElementsByTagName('body')[0].onclick = function (e) {
+        // document.getElementsByTagName('a')[index].click();
+        console.log(e.target);
       }
     }
   });
@@ -105,7 +108,7 @@ var global = 0;
 var FLAG = FLAG || null
 
 Barba.Dispatcher.on('newPageReady', function(currentStatus, oldStatus, container) {
-  if (currentStatus.url === 'http://localhost:1009/test/demo/index.html') {
+  if (currentStatus.url === 'http://localhost:1009/jCanvase/monitor.html') {
     setClickEvent(frames)
     global++;
   }

@@ -13,6 +13,12 @@
     <link href="./bootstrap.min.css" rel="stylesheet" />
     <link href="./imageviewer.css" rel="stylesheet" />
     <style type="text/css">
+        html,body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
         /* 2018-05-24 15:50:49 21th week Thu START */
         .spinner-mask.spinner-show {
             -webkit-transition: all .25s ease-out;
@@ -153,7 +159,7 @@
     <script src="./jcanvas.min.js"></script>
     <script type="text/javascript">
 
-    $(function() {
+    function fetchData(url, type, callback) {
         showLoading();
         $.ajax({
             url: "exchange-fakedata4.json", //json文件位置
@@ -161,27 +167,38 @@
             dataType: "json", //返回数据格式为json
             success: function(data) { //请求成功完成后要执行的方法
                 sessionStorage.setItem('infoDATA', JSON.stringify(data));
-                draw(data);
+                callback(data);
             }
         });
+    }
+
+    $(function() {
+        fetchData('exchange-fakedata4.json', 'get', draw);
+        // 每隔十秒获取数据
+        startCountingDown(10000);
     });
 
-    setInterval(function () {
-        showLoading();
-        $.ajax({
-            url: "exchange-fakedata4.json", //json文件位置
-            type: "GET", //请求方式为get
-            dataType: "json", //返回数据格式为json
-            success: function(data) { //请求成功完成后要执行的方法
-                sessionStorage.setItem('infoDATA', JSON.stringify(data));
-                draw(data);
-            }
-        });
-    }, 4000);
+    function startCountingDown(interval) {
+        cancelAnimationFrame(window.COUNTER_ID);
+        window.START_TIME = new Date().getTime();
+        window.INTERVAL = interval;
+        window.COUNTER_ID = null;
+        counter();
+    }
+    function counter() {
+        var currTime = new Date().getTime();
+        if((START_TIME + INTERVAL) < currTime) {
+            START_TIME = currTime;
+            fetchData('exchange-fakedata4.json', 'get', draw)
+        } else {
+            var a = Math.round((INTERVAL - (currTime - START_TIME)*1)/1000);
+            $('.count-down').html(a);
+        }
+        COUNTER_ID = requestAnimationFrame(counter);
+    }
 
     $(window).resize(function() {
-        var data = JSON.parse(sessionStorage.getItem('infoDATA'));
-        draw(data);
+        draw(JSON.parse(sessionStorage.getItem('infoDATA')));
     });
 
 	var eleStartPointGroup = {}
@@ -200,6 +217,8 @@
         
         // 根据屏幕比例获取画布宽高 return [type]: Array
         var cvsWH        = getRatio(window.innerWidth, window.innerHeight);
+        // 画布竖直居中
+        $('.panel').css({ position: 'absolute', marginTop: '-' + cvsWH[1]/2 + 'px', top:'50%' })
 
         // 画布宽高
         var cvsW         = cvsWH[0] * 4;
@@ -726,36 +745,33 @@
 
 <body style="width: 100%; height: 100%;  margin: 0; padding: 0; ">
     <div class="panel panel-default" style="margin-bottom:0; border:none; box-shadow:none;">
-        <header class="panel-heading">
-            <span>Exchange 系统拓扑</span>
-            <button type="button" class="btn btn-success" onclick="Zoom()"><i class="fa fa-eye"></i> View </button>
-        </header>
         <div class="panel-body" id="container">
-            <canvas id="cvs" style="display:block; margin: 0 auto;">
+            <canvas id="cvs" style="display:block; margin: 0 auto; cursor: pointer;" onclick="Zoom()">
                 <p style="color: #c90000">您正在使用的浏览器不支持html5</p>
                 最新版本的 Safari、Chrome、Firefox 以及 Opera 支持某些 HTML5 特性。Internet Explorer 9（及以上） 将支持某些 HTML5 特性。
             </canvas>
+            <p class="count-down" style="position: absolute;bottom: 0;right: 0;"></p>
         </div>
-        <div class="spinner-mask">
-            <div class="spinner">
-                <div class="spinner-container container1">
-                    <div class="circle1"></div>
-                    <div class="circle2"></div>
-                    <div class="circle3"></div>
-                    <div class="circle4"></div>
-                </div>
-                <div class="spinner-container container2">
-                    <div class="circle1"></div>
-                    <div class="circle2"></div>
-                    <div class="circle3"></div>
-                    <div class="circle4"></div>
-                </div>
-                <div class="spinner-container container3">
-                    <div class="circle1"></div>
-                    <div class="circle2"></div>
-                    <div class="circle3"></div>
-                    <div class="circle4"></div>
-                </div>
+    </div>
+    <div class="spinner-mask">
+        <div class="spinner">
+            <div class="spinner-container container1">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+            </div>
+            <div class="spinner-container container2">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+            </div>
+            <div class="spinner-container container3">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
             </div>
         </div>
     </div>
