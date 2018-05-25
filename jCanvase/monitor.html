@@ -15,42 +15,24 @@
     <link rel="stylesheet" type="text/css" href="./dist/style.css">
     <script src="./jquery.min.js"></script>
     <script src="./imageviewer.min.js"></script>
+    <script type="text/javascript">
+    	function Zoom(imgBase64) {
+    	    var viewer = new ImageViewer();
+    	    viewer.show(imgBase64);
+    	}
+    </script>
 
 </head>
 <!------分------割------线------>
 
 <body>
-	<main id="barba-wrapper">
-	  <div class="barba-container" data-namespace="grid">
-	    <a class="intro-thumb" href="./index4.html">
-	      <iframe id="f1" name="f1" src="./index4.html" frameborder="none" class="full"></iframe>
-	    </a>
-	    <a class="intro-thumb" href="./index5.html">
-	      <iframe id="f2" name="f2" src="./index5.html" frameborder="none" class="full"></iframe>
-	    </a>
-	    <a class="intro-thumb" href="./index4.html">
-	      <iframe id="f1" name="f1" src="./index4.html" frameborder="none" class="full"></iframe>
-	    </a>
-	    <a class="intro-thumb" href="./index5.html">
-	      <iframe id="f2" name="f2" src="./index5.html" frameborder="none" class="full"></iframe>
-	    </a>
-	  </div>
-	</main>
+	<iframe id="f1" name="f1" src="./index5.html" frameborder="none" class="full"></iframe>
+	<iframe id="f2" name="f2" src="./index5.html" frameborder="none" class="full"></iframe>
+	<iframe id="f3" name="f3" src="./index5.html" frameborder="none" class="full"></iframe>
+	<iframe id="f4" name="f4" src="./index5.html" frameborder="none" class="full"></iframe>
 	<img id="img" alt="" class="gallery-items" style="display:none;" />
 </body>
 
 <!------分------割------线------>
-
-<script src="./dist/barba.js"></script>
-<script src="./dist/grid.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenMax.min.js"></script>
-<script type="text/javascript">
-
-	// function Zoom(imgBase64) {
-	//     var viewer = new ImageViewer();
-	//     viewer.show(imgBase64);
-	// }
-
-</script>
 
 </html>

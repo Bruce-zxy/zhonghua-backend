@@ -12,6 +12,7 @@
     <![endif]-->
     <link href="./bootstrap.min.css" rel="stylesheet" />
     <link href="./imageviewer.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./dist/style.css">
     <style type="text/css">
         html,body {
             height: 100%;
@@ -191,14 +192,15 @@
             START_TIME = currTime;
             fetchData('exchange-fakedata4.json', 'get', draw)
         } else {
-            var a = Math.round((INTERVAL - (currTime - START_TIME)*1)/1000);
-            $('.count-down').html(a);
+            var countDown = Math.floor((INTERVAL - (currTime - START_TIME)*1)/1000);
+            $('.count-down span').html(countDown);
         }
         COUNTER_ID = requestAnimationFrame(counter);
     }
 
     $(window).resize(function() {
         draw(JSON.parse(sessionStorage.getItem('infoDATA')));
+        startCountingDown(Math.floor(Math.random()*20000));
     });
 
 	var eleStartPointGroup = {}
@@ -726,8 +728,9 @@
         } else {
             parent.Zoom(imgss);
         }
-        
     }
+
+    console.log(parent.Zoom);
 
     // 2018-05-24 15:51:44 21th week Thu START 
     function showLoading() {
@@ -744,13 +747,13 @@
 </head>
 
 <body style="width: 100%; height: 100%;  margin: 0; padding: 0; ">
-    <div class="panel panel-default" style="margin-bottom:0; border:none; box-shadow:none;">
+    <div class="panel panel-default" style="margin-bottom:0; border:none; box-shadow:none;width: 100%;">
         <div class="panel-body" id="container">
             <canvas id="cvs" style="display:block; margin: 0 auto; cursor: pointer;" onclick="Zoom()">
                 <p style="color: #c90000">您正在使用的浏览器不支持html5</p>
                 最新版本的 Safari、Chrome、Firefox 以及 Opera 支持某些 HTML5 特性。Internet Explorer 9（及以上） 将支持某些 HTML5 特性。
             </canvas>
-            <p class="count-down" style="position: absolute;bottom: 0;right: 0;"></p>
+            <p class="count-down digital-number" style="position: fixed;bottom: 0;right: 20px;font-size: 18px;color: #18EFFF; text-shadow: 1px 1px 10px #ccc;">页面将在<span style="margin: 0 .25em;"></span>秒后自动刷新</p>
         </div>
     </div>
     <div class="spinner-mask">
