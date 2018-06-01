@@ -1,7 +1,6 @@
 $(function () {
     var data = ReadData();
-    var cvs = new createCVSClass($('#cvs'));
-    Draw(cvs, data);
+    Draw($('#cvs'), data);
 });
 
 var eleWidth             = 925 - 700;
@@ -508,12 +507,9 @@ function Draw(cvs,json) {
 
     cvsBrushStartPointX = 700;
     cvsBrushStartPointY = 345;
+
     ITSM_SDP.MoList.forEach(function(ele, i) {
-        // console.log(ele, i);
-        if (i === 0) {
-            console.log(ele);
-            drawMoList(cvs, ele, i, cvsBrushStartPointX, cvsBrushStartPointY);
-        }
+        drawMoList(cvs, ele, i, cvsBrushStartPointX, cvsBrushStartPointY);
         cvsBrushStartPointX += eleWidth + 1.8 * eleHorizontalSpacing;
     })
 
@@ -522,6 +518,9 @@ function Draw(cvs,json) {
 }
 
 function drawMoList(cvs, ele, i, x, y) {
+
+    console.log(ele);
+
     var w = eleWidth - 2 * eleHorizontalSpacing - eleMarginRight;
     var h = eleHeight - 2 * eleVerticalSpacing;
 
@@ -673,31 +672,6 @@ function drawMoList(cvs, ele, i, x, y) {
 
 
 
-}
-
-function createCVSClass(cvs) {
-    for (prop in cvs) this[prop] = cvs[prop];
-    this.initialStyle = {
-        // draggable: true,
-        groups: ['Topology'],
-        // dragGroups: ['Topology'],
-    }
-    this.drawStyle = $.extend({}, { layer: true, index: 1 }, this.initialStyle)
-    this.drawLineHelper = function (param) {
-        return this.drawLine($.extend({}, param, this.drawStyle))
-    }
-    this.drawRectHelper = function (param) {
-        return this.drawRect($.extend({}, param, this.drawStyle))
-    }
-    this.drawTextHelper = function (param) {
-        return this.drawText($.extend({}, param, this.drawStyle))
-    }
-    this.drawImageHelper = function (param) {
-        return this.drawImage($.extend({}, param, this.drawStyle))
-    }
-    this.addLayerHelper = function (param) {
-        return this.addLayer($.extend({}, param, this.initialStyle))
-    }
 }
 
 function GetStateIcon(state) {
