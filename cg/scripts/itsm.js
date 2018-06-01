@@ -5,13 +5,11 @@ $(function () {
 
 var eleWidth             = 925 - 700;
 var eleHeight            = 770 - 345;
-console.log(eleWidth, eleHeight);
 var eleHorizontalSpacing = eleWidth / 18;
 var eleVerticalSpacing   = eleHeight / 28;
 var eleMarginRight       = eleHorizontalSpacing * 5;
 var cvsBrushStartPointX  = 0;
 var cvsBrushStartPointY  = 0;
-var eleFontSize          = eleHeight / 30;
 
 function ReadData() {
     //$.ajax({
@@ -494,23 +492,37 @@ function Draw(cvs,json) {
         fromCenter: false
     })
 
-    cvs.drawLine({
-        layer: true,
-        strokeStyle: '#13aae1',
-        strokeWidth: 5,
-        x1: 700 + eleHorizontalSpacing,
-        y1: 345 + eleVerticalSpacing,
-        x2: 925,
-        y2: 770,
-        closed: true
-    });
-
     cvsBrushStartPointX = 700;
     cvsBrushStartPointY = 345;
 
     ITSM_SDP.MoList.forEach(function(ele, i) {
         drawMoList(cvs, ele, i, cvsBrushStartPointX, cvsBrushStartPointY);
         cvsBrushStartPointX += eleWidth + 1.8 * eleHorizontalSpacing;
+    });
+
+    cvsBrushStartPointX = 1325;
+    cvsBrushStartPointY = 120;
+
+    ITSM_RECORD.MoList.forEach(function(ele, i) {
+        drawMoList(cvs, ele, i, cvsBrushStartPointX, cvsBrushStartPointY);
+        cvsBrushStartPointX += eleWidth + 1.8 * eleHorizontalSpacing;
+    });
+
+    cvsBrushStartPointX = 1325;
+    cvsBrushStartPointY = 610;
+
+    ITSM_MESSAGE.MoList.forEach(function(ele, i) {
+        drawMoList(cvs, ele, i, cvsBrushStartPointX, cvsBrushStartPointY);
+        cvsBrushStartPointX += eleWidth + 1.8 * eleHorizontalSpacing;
+    });
+
+    cvs.addLayer({
+        type: 'line',
+        strokeStyle: '#EB7B22',
+        strokeWidth: 4,
+        x1: 938, y1: 785,
+        x2: 938, y2: 835,
+        close: true
     })
 
     cvs.drawLayers();
@@ -518,8 +530,6 @@ function Draw(cvs,json) {
 }
 
 function drawMoList(cvs, ele, i, x, y) {
-
-    console.log(ele);
 
     var w = eleWidth - 2 * eleHorizontalSpacing - eleMarginRight;
     var h = eleHeight - 2 * eleVerticalSpacing;
@@ -538,9 +548,9 @@ function drawMoList(cvs, ele, i, x, y) {
         type: 'image',
         source: GetStateIcon(ele.MoState),
         x: x + eleWidth / 2,
-        y: y + eleMarginRight/1.2,
-        width: eleMarginRight/1.75,
-        height: eleMarginRight/1.75
+        y: y + eleMarginRight / 1.2,
+        width: eleMarginRight / 1.75,
+        height: eleMarginRight / 1.75
     }).addLayer({
         // 服务器名称背板
         type: 'rectangle',
@@ -649,9 +659,9 @@ function drawMoList(cvs, ele, i, x, y) {
         type: 'rectangle',
         fillStyle: GetStateColor(ele.RAM.State),
         x: x + eleHorizontalSpacing + eleVerticalSpacing / 6,
-        y: y + eleVerticalSpacing * 7.9 + (w - eleMarginRight / 1.5) * 1.48,
+        y: y + eleVerticalSpacing * 7.95 + (w - eleMarginRight / 1.5) * 1.48,
         width: (eleMarginRight * 2.5 - eleVerticalSpacing / 3) * eleUsedMemoryPct / 100,
-        height: eleVerticalSpacing * 1.2 - eleVerticalSpacing / 3,
+        height: eleVerticalSpacing * 0.8,
         cornerRadius: 5,
         fromCenter: false
     }).addLayer({
@@ -666,8 +676,164 @@ function drawMoList(cvs, ele, i, x, y) {
         text: eleUsedMemoryPct + '%'
     })
 
-    
+    var drawDiskStartY;
 
+    if(!!ele.MODisplayName.match('ITSM-SDP')){
+        drawDiskStartY = y + eleVerticalSpacing * 9.35 + (w - eleMarginRight / 1.5) * 1.48;
+        // Disk
+        ele.DiskList.forEach(function(item, i) {
+            cvs.addLayer({
+                // Disk图标
+                type: 'image',
+                source: 'imgs/cp/disk.png',
+                x: x + eleHorizontalSpacing,
+                y: drawDiskStartY,
+                width: eleHorizontalSpacing * 2.6,
+                height: eleHorizontalSpacing * 2.6,
+                fromCenter: false,
+            }).addLayer({
+                // Disk名称
+                type: 'text',
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                x: x + eleHorizontalSpacing * 1.85,
+                y: drawDiskStartY + eleVerticalSpacing * 0.4,
+                fontSize: eleFontSize * 1.2,
+                fontFamily: 'Microsoft YaHei',
+                text: diskArr[i] + '    Free Disk %',
+                fromCenter: false
+            }).addLayer({
+                // Disk使用率外框
+                type: 'rectangle',
+                strokeStyle: '#eee',
+                strokeWidth: eleVerticalSpacing / 6,
+                x: x + eleHorizontalSpacing + eleMarginRight * 1.25,
+                y: drawDiskStartY + eleVerticalSpacing * 3.2,
+                width: eleMarginRight * 2.5,
+                height: eleVerticalSpacing * 1.2,
+                cornerRadius: 5
+            }).addLayer({
+                // Disk使用率显示条
+                type: 'rectangle',
+                fillStyle: GetStateColor(ele.RAM.State),
+                x: x + eleHorizontalSpacing + eleVerticalSpacing / 6,
+                y: drawDiskStartY + eleVerticalSpacing * 2.8,
+                width: (eleMarginRight * 2.5 - eleVerticalSpacing / 3) * eleUsedDiskPct[i] / 100,
+                height: eleVerticalSpacing * 0.8,
+                cornerRadius: 5,
+                fromCenter: false
+            }).addLayer({
+                // Disk使用率
+                type: 'text',
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                x: x + eleHorizontalSpacing + eleMarginRight * 1.25,
+                y: drawDiskStartY + eleVerticalSpacing * 3.2,
+                fontSize: eleFontSize,
+                fontFamily: 'Microsoft YaHei',
+                text: eleUsedDiskPct[i] + '%'
+            })
+            drawDiskStartY += eleVerticalSpacing * 4.5
+        })
+    } else {
+        drawDiskStartY = y + eleVerticalSpacing * 9.1 + (w - eleMarginRight / 1.5) * 1.48;
+        // Disk
+        ele.DiskList.forEach(function(item, i) {
+            cvs.addLayer({
+                // Disk图标
+                type: 'image',
+                source: 'imgs/cp/disk.png',
+                x: x + eleHorizontalSpacing,
+                y: drawDiskStartY,
+                width: eleHorizontalSpacing * 2.4,
+                height: eleHorizontalSpacing * 2.4,
+                fromCenter: false,
+            }).addLayer({
+                // Disk名称
+                type: 'text',
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                x: x + eleHorizontalSpacing * 1.85,
+                y: drawDiskStartY + eleVerticalSpacing * 0.35,
+                fontSize: eleFontSize * 1.2,
+                fontFamily: 'Microsoft YaHei',
+                text: diskArr[i] + '    Free Disk %',
+                fromCenter: false
+            }).addLayer({
+                // Disk使用率外框
+                type: 'rectangle',
+                strokeStyle: '#eee',
+                strokeWidth: eleVerticalSpacing / 6,
+                x: x + eleHorizontalSpacing + eleMarginRight * 1.25,
+                y: drawDiskStartY + eleVerticalSpacing * 2.8,
+                width: eleMarginRight * 2.5,
+                height: eleVerticalSpacing * 1.2,
+                cornerRadius: 5
+            }).addLayer({
+                // Disk使用率显示条
+                type: 'rectangle',
+                fillStyle: GetStateColor(ele.RAM.State),
+                x: x + eleHorizontalSpacing + eleVerticalSpacing / 6,
+                y: drawDiskStartY + eleVerticalSpacing * 2.4,
+                width: (eleMarginRight * 2.5 - eleVerticalSpacing / 3) * eleUsedDiskPct[i] / 100,
+                height: eleVerticalSpacing * 0.8,
+                cornerRadius: 5,
+                fromCenter: false
+            }).addLayer({
+                // Disk使用率
+                type: 'text',
+                fillStyle: '#000',
+                fontStyle: 'bold',
+                x: x + eleHorizontalSpacing + eleMarginRight * 1.25,
+                y: drawDiskStartY + eleVerticalSpacing * 2.8,
+                fontSize: eleFontSize,
+                fontFamily: 'Microsoft YaHei',
+                text: eleUsedDiskPct[i] + '%'
+            })
+            drawDiskStartY += eleVerticalSpacing * 3.6
+        })
+    }
+
+    var MPListLength = ele.MPList.length;
+    var drawMPStartY = 0;
+    switch(MPListLength) {
+        case 1:
+            drawMPStartY = y + eleVerticalSpacing * 7.5 + (w - eleMarginRight / 1.5) * 1.48;
+            break;
+        case 2:
+            drawMPStartY = y + eleVerticalSpacing * 5.5 + (w - eleMarginRight / 1.5) * 1.48;;
+            break;
+        case 3:
+            drawMPStartY = y + eleVerticalSpacing * 2.5 + (w - eleMarginRight / 1.5) * 1.48;;
+            break;
+        case 4:
+            drawMPStartY = y + eleVerticalSpacing * 1.5 + (w - eleMarginRight / 1.5) * 1.48;
+            break;
+        default: 
+            drawMPStartY = y + eleVerticalSpacing * 1.5 + (w - eleMarginRight / 1.5) * 1.48;
+            break;
+    }
+
+    ele.MPList.forEach(function (item, i) {
+        cvs.addLayer({
+            type: 'image',
+            source: GetFeaturesIcon(item.MPIcon),
+            x: x + w + eleHorizontalSpacing * 2.8,
+            y: drawMPStartY,
+            width: eleMarginRight * 0.7,
+            height: eleMarginRight * 0.7,
+            fromCenter: false
+        }).addLayer({
+            type: 'image',
+            source: GetStateIcon(item.State),
+            x: x + w + eleMarginRight * 0.95,
+            y: drawMPStartY,
+            width: eleMarginRight / 3,
+            height: eleMarginRight / 3,
+            fromCenter: false
+        })
+        drawMPStartY += eleVerticalSpacing * 4.3;
+    })
     console.log(eleUsedCPUPct, eleUsedMemoryPct, eleUsedDiskPct);
 
 
