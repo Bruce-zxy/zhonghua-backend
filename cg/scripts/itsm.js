@@ -8,8 +8,10 @@ var eleHeight            = 770 - 345;
 var eleHorizontalSpacing = eleWidth / 18;
 var eleVerticalSpacing   = eleHeight / 28;
 var eleMarginRight       = eleHorizontalSpacing * 5;
+var eleFontSize          = 16;
 var cvsBrushStartPointX  = 0;
 var cvsBrushStartPointY  = 0;
+var diskArr              = ['C', 'D', 'E', 'F'];
 
 function ReadData() {
     //$.ajax({
