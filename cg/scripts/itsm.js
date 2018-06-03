@@ -8,7 +8,7 @@ var eleHeight            = 770 - 345;
 var eleHorizontalSpacing = eleWidth / 18;
 var eleVerticalSpacing   = eleHeight / 28;
 var eleMarginRight       = eleHorizontalSpacing * 5;
-var eleFontSize          = 16;
+var eleFontSize          = 15;
 var cvsBrushStartPointX  = 0;
 var cvsBrushStartPointY  = 0;
 var diskArr              = ['C', 'D', 'E', 'F'];
@@ -29,7 +29,7 @@ function ReadData() {
     return {
         "DataTime": "/Date(-62135596800000)/",
         "GroupList": [
-            {
+			{
                 "MoList": [
                     {
                         "MoState": 3,
@@ -717,7 +717,7 @@ function drawMoList(cvs, ele, i, x, y) {
             }).addLayer({
                 // Disk使用率显示条
                 type: 'rectangle',
-                fillStyle: GetStateColor(ele.RAM.State),
+                fillStyle: GetStateColor(ele.DiskList[i].State),
                 x: x + eleHorizontalSpacing + eleVerticalSpacing / 6,
                 y: drawDiskStartY + eleVerticalSpacing * 2.8,
                 width: (eleMarginRight * 2.5 - eleVerticalSpacing / 3) * eleUsedDiskPct[i] / 100,
