@@ -687,7 +687,7 @@ function drawMoList(cvs, ele, i, x, y) {
             cvs.addLayer({
                 // Disk图标
                 type: 'image',
-                source: 'imgs/cp/disk.png',
+                source: GetFeaturesIcon('cp-disk'),
                 x: x + eleHorizontalSpacing,
                 y: drawDiskStartY,
                 width: eleHorizontalSpacing * 2.6,
@@ -744,7 +744,7 @@ function drawMoList(cvs, ele, i, x, y) {
             cvs.addLayer({
                 // Disk图标
                 type: 'image',
-                source: 'imgs/cp/disk.png',
+                source: GetFeaturesIcon('cp-disk'),
                 x: x + eleHorizontalSpacing,
                 y: drawDiskStartY,
                 width: eleHorizontalSpacing * 2.4,
@@ -836,18 +836,14 @@ function drawMoList(cvs, ele, i, x, y) {
         })
         drawMPStartY += eleVerticalSpacing * 4.3;
     })
-    console.log(eleUsedCPUPct, eleUsedMemoryPct, eleUsedDiskPct);
-
-
-
 }
 
 function GetStateIcon(state) {
-    return "imgs/st/st-" + state + ".png";
+    return $('#img-st-' + state)[0];
 }
 
 function GetFeaturesIcon(icon) {
-    return "imgs/" + icon.slice(0,2) + "/" + icon + ".png";
+    return $('#img-' + icon)[0];
 }
 
 function GetStateColor(state) {
