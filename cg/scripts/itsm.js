@@ -803,10 +803,10 @@ function drawMoList(cvs, ele, i, x, y) {
             drawMPStartY = y + eleVerticalSpacing * 7.5 + (w - eleMarginRight / 1.5) * 1.48;
             break;
         case 2:
-            drawMPStartY = y + eleVerticalSpacing * 5.5 + (w - eleMarginRight / 1.5) * 1.48;;
+            drawMPStartY = y + eleVerticalSpacing * 5.5 + (w - eleMarginRight / 1.5) * 1.48;
             break;
         case 3:
-            drawMPStartY = y + eleVerticalSpacing * 2.5 + (w - eleMarginRight / 1.5) * 1.48;;
+            drawMPStartY = y + eleVerticalSpacing * 2.5 + (w - eleMarginRight / 1.5) * 1.48;
             break;
         case 4:
             drawMPStartY = y + eleVerticalSpacing * 1.5 + (w - eleMarginRight / 1.5) * 1.48;
