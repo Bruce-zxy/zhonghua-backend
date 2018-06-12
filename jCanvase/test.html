@@ -28,7 +28,7 @@
 
 <body>
 
-	<canvas id="canvas"></canvas>
+	<canvas id="canvas" width="1920" height="1080" style="width: 100%"></canvas>
 
 </body>
 
@@ -95,10 +95,10 @@
 	    	dragGroups: ['shapes'],
 	        type: 'rectangle',
 	        fillStyle: '#585',
-	        x: cx,
-	        y: cy,
-	        width: 600,
-	        height: 600,
+	        x: cx + 50,
+	        y: cy + 50,
+	        width: 20,
+	        height: 20,
 	        dragstop: function(layer) {
 	        	console.log(layer);
 	        	console.log(layer.x, layer.y);

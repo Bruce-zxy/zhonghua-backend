@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="shortcut icon" type="image/png" href="/imgs/favicon.png" /> -->
+    <title>Dynamic Table</title>
+    <!-- inject:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- endinject -->
+    <!-- Main Style  -->
+    <link rel="stylesheet" href="dist/css/main.css">
+    <!--Data Table-->
+    <link href="bower_components/datatables/media/css/jquery.dataTables.css" rel="stylesheet">
+    <link href="bower_components/datatables-tabletools/css/dataTables.tableTools.css" rel="stylesheet">
+    <link href="bower_components/datatables-colvis/css/dataTables.colVis.css" rel="stylesheet">
+    <link href="bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
+    <link href="bower_components/datatables-scroller/css/scroller.dataTables.scss" rel="stylesheet">
+    <script src="assets/js/modernizr-custom.js"></script>
+</head>
+
+<body>
+    <!--main content start-->
+    <div class="ui-content-body">
+        <div class="ui-container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading panel-border">
+                            Column Visible Data Table
+                            <span class="tools pull-right">
+                                            <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
+                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                            <a class="close-box fa fa-times" href="javascript:;"></a>
+                                        </span>
+                        </header>
+                        <div class="panel-body table-responsive">
+                            <table class="table colvis-data-table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            所属组别
+                                        </th>
+                                        <th>
+                                            主机名称
+                                        </th>
+                                        <th>
+                                            CPU状态
+                                        </th>
+                                        <th>
+                                            内存状态
+                                        </th>
+                                        <th>
+                                            硬盘状态
+                                        </th>
+                                        <th>
+                                            检查点状态
+                                        </th>
+                                        <th>
+                                            更新时间
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            1/6/10
+                                        </td>
+                                        <td>
+                                            Quebec
+                                        </td>
+                                        <td>
+                                            Jones
+                                        </td>
+                                        <td>
+                                            Pencil
+                                        </td>
+                                        <td>
+                                            95
+                                        </td>
+                                        <td>
+                                            1.99
+                                        </td>
+                                        <td>
+                                            189.05
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--main content end-->
+
+    <!-- inject:js -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js"></script>
+    <script src="bower_components/autosize/dist/autosize.min.js"></script>
+    <!-- endinject -->
+    <!--Data Table-->
+    <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
+    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="bower_components/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="bower_components/datatables-scroller/js/dataTables.scroller.js"></script>
+    <!--init data tables-->
+    <script src="assets/js/init-datatables.js"></script>
+    <!-- Common Script   -->
+    <script src="dist/js/main.js"></script>
+
+</body>
+
+</html>
