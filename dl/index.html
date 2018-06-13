@@ -20,6 +20,97 @@
     <link href="bower_components/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
     <link href="bower_components/datatables-scroller/css/scroller.dataTables.scss" rel="stylesheet">
     <script src="assets/js/modernizr-custom.js"></script>
+    <style type="text/css">
+        body {
+            color: #000;
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: #fff;
+        }
+        table {
+            border: 1px solid #ddd;
+        }
+        td[rowspan] {
+            border-right: 1px solid #ddd;
+        }
+        .disk>div {
+            margin: 10px auto;
+        }
+        .update-time {
+            text-align: right;
+        }
+        .update-time span {
+            font-weight: bold;
+        }
+        .state-point {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            margin: 0 5px;
+        }        
+        .pie {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+            width: 24px;
+            line-height: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #EBEDF0;
+            color: transparent;
+            text-align: center;
+            animation: breath 5s ease-in-out infinite;
+        }
+        .pie .pie-child {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            border-radius: 0 100% 100% 0 / 50%;
+            background-color: inherit;
+            transform-origin: left;
+            animation-play-state: paused;
+            animation-delay: inherit;
+        }
+        @keyframes breath {
+            0% {
+                box-shadow: 0 0 0px #ccc;
+            }
+            62.5% {
+                box-shadow: 2px 2px 8px #ccc;
+            }
+            100% {
+                box-shadow: 0 0 0px #ccc;
+            }
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(.5turn);
+            }
+        }
+        @keyframes st-1 {
+            50% {
+                background: #1afa29;
+            }
+        }
+        @keyframes st-2 {
+            50% {
+                background: #FF0;
+            }
+        }
+        @keyframes st-3 {
+            50% {
+                background: #F00;
+            }
+        }
+        @keyframes st-4 {
+            50% {
+                background: #939393;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -32,63 +123,37 @@
                         <header class="panel-heading panel-border">
                             Column Visible Data Table
                             <span class="tools pull-right">
-                                            <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
-                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
-                                            <a class="close-box fa fa-times" href="javascript:;"></a>
-                                        </span>
+                                <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
+                                <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
                         </header>
-                        <div class="panel-body table-responsive">
+                        <div class="panel-body">
+                            <p class="update-time"></p>
                             <table class="table colvis-data-table table-striped">
                                 <thead>
                                     <tr>
                                         <th>
                                             所属组别
                                         </th>
-                                        <th>
+                                        <th class="name">
                                             主机名称
                                         </th>
-                                        <th>
+                                        <th class="cpu">
                                             CPU状态
                                         </th>
-                                        <th>
+                                        <th class="ram">
                                             内存状态
                                         </th>
-                                        <th>
+                                        <th class="disk">
                                             硬盘状态
                                         </th>
-                                        <th>
+                                        <th class="cp">
                                             检查点状态
-                                        </th>
-                                        <th>
-                                            更新时间
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            1/6/10
-                                        </td>
-                                        <td>
-                                            Quebec
-                                        </td>
-                                        <td>
-                                            Jones
-                                        </td>
-                                        <td>
-                                            Pencil
-                                        </td>
-                                        <td>
-                                            95
-                                        </td>
-                                        <td>
-                                            1.99
-                                        </td>
-                                        <td>
-                                            189.05
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </section>
@@ -97,7 +162,6 @@
         </div>
     </div>
     <!--main content end-->
-
     <!-- inject:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -112,10 +176,9 @@
     <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
     <script src="bower_components/datatables-scroller/js/dataTables.scroller.js"></script>
     <!--init data tables-->
-    <script src="assets/js/init-datatables.js"></script>
+    <!-- <script src="assets/js/init-datatables.js"></script> -->
     <!-- Common Script   -->
     <script src="dist/js/main.js"></script>
-
 </body>
 
 </html>
